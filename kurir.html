@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal Kurir - LaundryTrack</title>
+    <!-- Font Poppins agar senada dengan Customer -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome untuk Ikon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background-color: #e2e8f0;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      /* Container Mobile-first */
+      .mobile-app {
+        width: 100%;
+        max-width: 480px;
+        background-color: #f8fafc;
+        min-height: 100vh;
+        position: relative;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        overflow-x: hidden;
+      }
+
+      /* --- HALAMAN LOGIN --- */
+      #loginScreen {
+        background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        height: 100vh;
+      }
+
+      .login-card {
+        background: white;
+        width: 100%;
+        padding: 30px 20px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      .login-card i {
+        font-size: 50px;
+        color: #2563eb;
+        margin-bottom: 15px;
+      }
+
+      .login-card h2 {
+        color: #1e293b;
+        margin-bottom: 5px;
+      }
+      .login-card p {
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+      }
+
+      .input-group {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        font-size: 0.85rem;
+        color: #475569;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .input-group select,
+      .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 1rem;
+        outline: none;
+      }
+
+      .input-group select:focus,
+      .input-group input:focus {
+        border-color: #2563eb;
+      }
+
+      .btn-primary {
+        width: 100%;
+        background: #2563eb;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .btn-primary:hover {
+        background: #1d4ed8;
+      }
+
+      /* --- HALAMAN DASHBOARD --- */
+      #dashboardScreen {
+        display: none; /* Disembunyikan sebelum login */
+        padding-bottom: 80px;
+      }
+
+      .header {
+        background: #2563eb;
+        padding: 30px 20px 40px 20px;
+        color: white;
+        border-bottom-left-radius: 25px;
+        border-bottom-right-radius: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .stats-wrapper {
+        display: flex;
+        gap: 15px;
+        padding: 0 20px;
+        margin-top: -25px;
+      }
+
+      .stat-box {
+        flex: 1;
+        background: white;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        text-align: center;
+      }
+      .stat-box h3 {
+        font-size: 1.5rem;
+        color: #1e293b;
+      }
+      .stat-box p {
+        font-size: 0.8rem;
+        color: #64748b;
+      }
+
+      /* Filter Tugas */
+      .filter-container {
+        display: flex;
+        gap: 10px;
+        padding: 20px;
+        overflow-x: auto;
+      }
+
+      .filter-btn {
+        padding: 8px 15px;
+        background: #e2e8f0;
+        color: #475569;
+        border: none;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .filter-btn.active {
+        background: #2563eb;
+        color: white;
+      }
+
+      /* Task Cards */
+      .task-list {
+        padding: 0 20px;
+      }
+
+      .task-card {
+        background: white;
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+        border-left: 5px solid #f59e0b; /* Kuning = Jemput */
+        transition: 0.3s;
+      }
+
+      .task-card.tipe-antar {
+        border-left-color: #10b981;
+      } /* Hijau = Antar */
+
+      .t-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .t-badge {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+      }
+      .bg-jemput {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .bg-antar {
+        background: #d1fae5;
+        color: #059669;
+      }
+
+      .t-name {
+        font-size: 1.1rem;
+        color: #1e293b;
+        font-weight: 600;
+      }
+      .t-address {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin: 5px 0 15px 0;
+      }
+
+      .action-row {
+        display: flex;
+        gap: 10px;
+      }
+      .btn-action {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+      .btn-map {
+        background: #eff6ff;
+        color: #2563eb;
+      }
+      .btn-done {
+        background: #2563eb;
+        color: white;
+      }
+
+      /* Bottom Nav */
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        max-width: 480px;
+        background: white;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 0;
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+      .nav-item {
+        text-align: center;
+        color: #94a3b8;
+        cursor: pointer;
+      }
+      .nav-item.active {
+        color: #2563eb;
+      }
+      .nav-item i {
+        font-size: 1.2rem;
+      }
+      .nav-item p {
+        font-size: 0.7rem;
+        font-weight: 600;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HALAMAN 1: PORTAL LOGIN -->
+    <div id="loginScreen" class="mobile-app">
+      <div class="login-card">
+        <i class="fa-solid fa-motorcycle"></i>
+        <h2>Portal Kurir</h2>
+        <p>Sistem LaundryTrack Terpadu</p>
+
+        <div class="input-group">
+          <label>PILIH KARYAWAN (KURIR)</label>
+          <select id="kurirSelect">
+            <option value="" disabled selected>-- Pilih Nama Kurir --</option>
+            <option value="Budi">Budi (ID: KR-01)</option>
+            <option value="Andi">Andi (ID: KR-02)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>PIN AKSES</label>
+          <input
+            type="password"
+            id="pinInput"
+            placeholder="Masukkan 4 digit PIN (Bebas)"
+            maxlength="4"
+          />
+        </div>
+
+        <button class="btn-primary" onclick="prosesLogin()">
+          Mulai Bertugas <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- HALAMAN 2: DASHBOARD UTAMA -->
+    <div id="dashboardScreen" class="mobile-app">
+      <div class="header">
+        <div>
+          <p style="font-size: 0.85rem; opacity: 0.8">Selamat bertugas,</p>
+          <h2 id="namaKurirText" style="font-size: 1.3rem">Kurir</h2>
+        </div>
+        <i
+          class="fa-solid fa-right-from-bracket"
+          style="font-size: 1.2rem; cursor: pointer"
+          onclick="logout()"
+        ></i>
+      </div>
+
+      <div class="stats-wrapper">
+        <div class="stat-box">
+          <h3 id="countSisa">3</h3>
+          <p>Sisa Tugas</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="countSelesai">0</h3>
+          <p>Selesai</p>
+        </div>
+      </div>
+
+      <div class="filter-container">
+        <button class="filter-btn active" onclick="filterTugas('semua', this)">
+          Semua
+        </button>
+        <button class="filter-btn" onclick="filterTugas('jemput', this)">
+          Penjemputan
+        </button>
+        <button class="filter-btn" onclick="filterTugas('antar', this)">
+          Pengantaran
+        </button>
+      </div>
+
+      <div class="task-list" id="taskList">
+        <!-- Tugas 1: Jemput -->
+        <div class="task-card tipe-jemput" id="t1">
+          <div class="t-header">
+            <span class="t-badge bg-jemput">Jemput Kotor</span>
+            <span style="font-size: 0.8rem; color: #94a3b8">#PK-102</span>
+          </div>
+          <div class="t-name">Bapak Agus</div>
+          <div class="t-address">
+            <i class="fa-solid fa-location-dot" style="color: #ef4444"></i> Jl.
+            Mawar No. 12, Malang
+          </div>
+          <div class="action-row">
+            <button class="btn-action btn-map" onclick="bukaPeta()">
+              <i class="fa-solid fa-map"></i> Peta
+            </button>
+            <button class="btn-action btn-done" onclick="selesaikanTugas('t1')">
+              <i class="fa-solid fa-check"></i> Selesai
+            </button>
+          </div>
+        </div>
+
+        <!-- Tugas 2: Antar -->
+        <div class="task-card tipe-antar" id="t2">
+          <div class="t-header">
+            <span class="t-badge bg-antar">Antar Bersih</span>
+            <span style="font-size: 0.8rem; color: #94a3b8">#INV-098</span>
+          </div>
+          <div class="t-name">Ibu Siti Aminah</div>
+          <div class="t-address">
+            <i class="fa-solid fa-location-dot" style="color: #ef4444"></i>
+            Perum Tidar Blok C2 (Titip Satpam)
+          </div>
+          <div class="action-row">
+            <button class="btn-action btn-map" onclick="bukaPeta()">
+              <i class="fa-solid fa-map"></i> Peta
+            </button>
+            <button class="btn-action btn-done" onclick="selesaikanTugas('t2')">
+              <i class="fa-solid fa-check"></i> Selesai
+            </button>
+          </div>
+        </div>
+
+        <!-- Tugas 3: Jemput -->
+        <div class="task-card tipe-jemput" id="t3">
+          <div class="t-header">
+            <span class="t-badge bg-jemput">Jemput Kotor</span>
+            <span style="font-size: 0.8rem; color: #94a3b8">#PK-103</span>
+          </div>
+          <div class="t-name">Kak Naufal (Kos)</div>
+          <div class="t-address">
+            <i class="fa-solid fa-location-dot" style="color: #ef4444"></i> Jl.
+            Sigura-gura Gg 3
+          </div>
+          <div class="action-row">
+            <button class="btn-action btn-map" onclick="bukaPeta()">
+              <i class="fa-solid fa-map"></i> Peta
+            </button>
+            <button class="btn-action btn-done" onclick="selesaikanTugas('t3')">
+              <i class="fa-solid fa-check"></i> Selesai
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <i class="fa-solid fa-list-check"></i>
+          <p>Tugas</p>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <p>Riwayat</p>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-user"></i>
+          <p>Akun</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPT LOGIKA JAVASCRIPT -->
+    <script>
+      // Logika Login
+      function prosesLogin() {
+        const kurir = document.getElementById("kurirSelect").value;
+        if (!kurir) {
+          alert("Pilih nama kurir dulu cak (Budi atau Andi)!");
+          return;
+        }
+        // Ubah tampilan
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("dashboardScreen").style.display = "block";
+        document.getElementById("namaKurirText").innerText = "Mas " + kurir;
+      }
+
+      function logout() {
+        document.getElementById("loginScreen").style.display = "flex";
+        document.getElementById("dashboardScreen").style.display = "none";
+      }
+
+      // Logika Filter Tugas
+      function filterTugas(tipe, btnElement) {
+        // Ubah warna tombol aktif
+        let btns = document.getElementsByClassName("filter-btn");
+        for (let b of btns) b.classList.remove("active");
+        btnElement.classList.add("active");
+
+        // Saring kartu
+        let cards = document.getElementsByClassName("task-card");
+        for (let card of cards) {
+          if (tipe === "semua") {
+            card.style.display = "block";
+          } else if (
+            tipe === "jemput" &&
+            card.classList.contains("tipe-jemput")
+          ) {
+            card.style.display = "block";
+          } else if (
+            tipe === "antar" &&
+            card.classList.contains("tipe-antar")
+          ) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        }
+      }
+
+      // Logika Selesai & Peta
+      let sisa = 3;
+      let selesai = 0;
+
+      function selesaikanTugas(id) {
+        const card = document.getElementById(id);
+        card.style.display = "none"; // Sembunyikan kartu
+
+        sisa--;
+        selesai++;
+        document.getElementById("countSisa").innerText = sisa;
+        document.getElementById("countSelesai").innerText = selesai;
+
+        if (sisa === 0) {
+          alert(
+            "Mantap cak! Semua tugas selesai, Database (simulasi) telah diupdate!",
+          );
+        }
+      }
+
+      function bukaPeta() {
+        alert("Aplikasi Google Maps akan terbuka (Simulasi)");
+      }
+    </script>
+  </body>
+</html>

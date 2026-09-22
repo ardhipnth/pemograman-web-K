@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cek Status - LaundryTrack & Delivery</title>
+    <!-- Import Font Poppins untuk kesan modern dan ramah -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Import FontAwesome untuk Ikon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Gelembung Dekorasi -->
+    <div class="bubble b1"></div>
+    <div class="bubble b2"></div>
+    <div class="bubble b3"></div>
+
+    <div class="card">
+      <!-- Form Pencarian (Default Tampil) -->
+      <div id="searchSection">
+        <div class="header-logo">
+          <i class="fa-solid fa-water"></i>
+        </div>
+        <h1>LaundryTrack</h1>
+        <p class="subtitle">Pantau cucianmu tanpa perlu tanya admin.</p>
+
+        <div class="input-group">
+          <i class="fa-solid fa-phone"></i>
+          <input
+            type="text"
+            id="noHpInput"
+            placeholder="Masukkan Nomor HP Anda..."
+            autocomplete="off"
+          />
+        </div>
+        <button class="btn-search" onclick="cekStatus()">
+          Lacak Cucian <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <!-- Hasil Pencarian (Awalnya Sembunyi lewat inline style) -->
+      <div class="result-container" id="resultSection" style="display: none">
+        <div class="customer-info">
+          <h3>Halo, Kak Naufal!</h3>
+          <p>Nota: #INV-0982 | Layanan: Cuci Setrika + Antar</p>
+        </div>
+
+        <!-- Timeline Status -->
+        <div class="timeline">
+          <div class="step done">
+            <div class="icon-box"><i class="fa-solid fa-shirt"></i></div>
+            <p>Dicuci</p>
+          </div>
+          <div class="step done">
+            <div class="icon-box"><i class="fa-solid fa-soap"></i></div>
+            <p>Disetrika</p>
+          </div>
+          <div class="step active">
+            <div class="icon-box"><i class="fa-solid fa-motorcycle"></i></div>
+            <p>Diantar</p>
+          </div>
+          <div class="step">
+            <div class="icon-box"><i class="fa-solid fa-check"></i></div>
+            <p>Selesai</p>
+          </div>
+        </div>
+
+        <div class="status-msg">
+          <i class="fa-solid fa-bell"></i> Cucianmu sedang di jalan dibawa oleh
+          kurir kami. Siap-siap ya!
+        </div>
+
+        <button class="btn-reset" onclick="resetForm()">Cek Nomor Lain</button>
+      </div>
+    </div>
+
+    <script>
+      function cekStatus() {
+        const input = document.getElementById("noHpInput").value;
+        if (input.trim() === "") {
+          alert("Masukkan nomor HP dulu, cak!");
+          return;
+        }
+        // Sembunyikan form awal, tampilkan hasil tracking
+        document.getElementById("searchSection").style.display = "none";
+        document.getElementById("resultSection").style.display = "block";
+      }
+
+      function resetForm() {
+        // Mengembalikan ke tampilan awal
+        document.getElementById("noHpInput").value = "";
+        document.getElementById("searchSection").style.display = "block";
+        document.getElementById("resultSection").style.display = "none";
+      }
+    </script>
+  </body>
+</html>
