@@ -14,6 +14,305 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        /* Background gradien warna biru air segar */
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Hiasan background seperti gelembung sabun */
+      .bubble {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        animation: float 8s infinite ease-in-out;
+      }
+      .b1 {
+        width: 80px;
+        height: 80px;
+        left: 10%;
+        bottom: -20px;
+        animation-duration: 6s;
+      }
+      .b2 {
+        width: 120px;
+        height: 120px;
+        left: 80%;
+        bottom: 50px;
+        animation-duration: 9s;
+      }
+      .b3 {
+        width: 50px;
+        height: 50px;
+        left: 40%;
+        top: 10%;
+        animation-duration: 7s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-30px) scale(1.1);
+        }
+      }
+
+      /* Kartu Utama */
+      .card {
+        background: #ffffff;
+        width: 100%;
+        max-width: 450px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(2, 132, 199, 0.15);
+        padding: 40px 30px;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      .header-logo i {
+        font-size: 50px;
+        color: #0ea5e9;
+        margin-bottom: 15px;
+      }
+
+      .card h1 {
+        color: #0f172a;
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+      }
+
+      .card p.subtitle {
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-bottom: 30px;
+      }
+
+      /* Input Form */
+      .input-group {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .input-group i {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 15px 15px 15px 50px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s;
+      }
+
+      .input-group input:focus {
+        border-color: #0ea5e9;
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+      }
+
+      button.btn-search {
+        width: 100%;
+        background: #0ea5e9;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          transform 0.1s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button.btn-search:hover {
+        background: #0284c7;
+      }
+
+      button.btn-search:active {
+        transform: scale(0.98);
+      }
+
+      /* Bagian Hasil Tracking (Awalnya Disembunyikan) */
+      .result-container {
+        display: none;
+        margin-top: 30px;
+        text-align: left;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .customer-info {
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        border-left: 4px solid #0ea5e9;
+      }
+
+      .customer-info h3 {
+        font-size: 1.1rem;
+        color: #0f172a;
+      }
+      .customer-info p {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-top: 5px;
+      }
+
+      /* Visual Timeline / Progress Bar */
+      .timeline {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-bottom: 10px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        top: 20px;
+        left: 10%;
+        right: 10%;
+        height: 3px;
+        background: #e2e8f0;
+        z-index: 1;
+      }
+
+      /* Garis progres biru (sampai tahap pengantaran) */
+      .timeline::after {
+        content: "";
+        position: absolute;
+        top: 20px;
+        left: 10%;
+        width: 60%; /* Lebar ini nanti diatur by sistem */
+        height: 3px;
+        background: #0ea5e9;
+        z-index: 1;
+        transition: 1s ease;
+      }
+
+      .step {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        width: 25%;
+      }
+
+      .step .icon-box {
+        width: 40px;
+        height: 40px;
+        background: #e2e8f0;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 10px auto;
+        color: #94a3b8;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+      }
+
+      .step p {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #94a3b8;
+      }
+
+      /* Status Selesai / Lewat */
+      .step.done .icon-box {
+        background: #0ea5e9;
+        color: white;
+      }
+      .step.done p {
+        color: #0ea5e9;
+      }
+
+      /* Status Aktif / Berjalan */
+      .step.active .icon-box {
+        background: #38bdf8;
+        color: white;
+        box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.2);
+        animation: pulse 2s infinite;
+      }
+      .step.active p {
+        color: #0284c7;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(56, 189, 248, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+        }
+      }
+
+      .status-msg {
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px;
+        background: #ecfdf5;
+        color: #059669;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .btn-reset {
+        background: transparent;
+        color: #94a3b8;
+        border: none;
+        width: 100%;
+        margin-top: 15px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        text-decoration: underline;
+      }
+      .btn-reset:hover {
+        color: #64748b;
+      }
+    </style>
   </head>
   <body>
     <!-- Gelembung Dekorasi -->
@@ -44,8 +343,8 @@
         </button>
       </div>
 
-      <!-- Hasil Pencarian (Awalnya Sembunyi lewat inline style) -->
-      <div class="result-container" id="resultSection" style="display: none">
+      <!-- Hasil Pencarian (Awalnya Sembunyi) -->
+      <div class="result-container" id="resultSection">
         <div class="customer-info">
           <h3>Halo, Kak Naufal!</h3>
           <p>Nota: #INV-0982 | Layanan: Cuci Setrika + Antar</p>
