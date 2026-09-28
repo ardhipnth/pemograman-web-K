@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal Kurir - LaundryTrack</title>
+
+    <!-- Font Poppins & FontAwesome -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- File CSS Eksternal -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- HALAMAN 1: PORTAL LOGIN -->
+    <div id="loginScreen" class="mobile-app">
+      <div class="login-card">
+        <i class="fa-solid fa-motorcycle"></i>
+        <h2>Portal Kurir</h2>
+        <p>Sistem LaundryTrack Terpadu</p>
+
+        <div class="input-group">
+          <label>PILIH KARYAWAN (KURIR)</label>
+          <select id="kurirSelect">
+            <option value="" disabled selected>-- Pilih Nama Kurir --</option>
+            <option value="Budi">Budi (ID: KR-01)</option>
+            <option value="Andi">Andi (ID: KR-02)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>PIN AKSES</label>
+          <input
+            type="password"
+            id="pinInput"
+            placeholder="Masukkan 4 digit PIN (Bebas)"
+            maxlength="4"
+          />
+        </div>
+
+        <button class="btn-primary" onclick="prosesLogin()">
+          Mulai Bertugas <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- HALAMAN 2: DASHBOARD UTAMA -->
+    <div id="dashboardScreen" class="mobile-app">
+      <div class="header">
+        <div>
+          <p style="font-size: 0.85rem; opacity: 0.8">Selamat bertugas,</p>
+          <h2 id="namaKurirText" style="font-size: 1.3rem">Kurir</h2>
+        </div>
+        <i
+          class="fa-solid fa-right-from-bracket"
+          style="font-size: 1.2rem; cursor: pointer"
+          onclick="logout()"
+        ></i>
+      </div>
+
+      <div class="stats-wrapper">
+        <div class="stat-box">
+          <h3 id="countSisa">3</h3>
+          <p>Sisa Tugas</p>
+        </div>
+        <div class="stat-box">
+          <h3 id="countSelesai">0</h3>
+          <p>Selesai</p>
+        </div>
+      </div>
+
+      <div class="filter-container">
+        <button class="filter-btn active" onclick="filterTugas('semua', this)">
+          Semua
+        </button>
+        <button class="filter-btn" onclick="filterTugas('jemput', this)">
+          Penjemputan
+        </button>
+        <button class="filter-btn" onclick="filterTugas('antar', this)">
+          Pengantaran
+        </button>
+      </div>
+
+      <div class="task-list" id="taskList">
+        <!-- Tugas 1: Jemput -->
+        <div class="task-card tipe-jemput" id="t1">
+          <div class="t-header">
+            <span class="t-badge bg-jemput">Jemput Kotor</span>
+            <span style="font-size: 0.8rem; color: #94a3b8">#PK-102</span>
+          </div>
+          <div class="t-name">Bapak Agus</div>
+          <div class="t-address">
+            <i class="fa-solid fa-location-dot" style="color: #ef4444"></i> Jl.
+            Mawar No. 12, Malang
+          </div>
+          <div class="action-row">
+            <button class="btn-action btn-map" onclick="bukaPeta()">
+              <i class="fa-solid fa-map"></i> Peta
+            </button>
+            <button class="btn-action btn-done" onclick="selesaikanTugas('t1')">
+              <i class="fa-solid fa-check"></i> Selesai
+            </button>
+          </div>
+        </div>
+
+        <!-- Tugas 2: Antar -->
+        <div class="task-card tipe-antar" id="t2">
+          <div class="t-header">
+            <span class="t-badge bg-antar">Antar Bersih</span>
+            <span style="font-size: 0.8rem; color: #94a3b8">#INV-098</span>
+          </div>
+          <div class="t-name">Ibu Siti Aminah</div>
+          <div class="t-address">
+            <i class="fa-solid fa-location-dot" style="color: #ef4444"></i>
+            Perum Tidar Blok C2 (Titip Satpam)
+          </div>
+          <div class="action-row">
+            <button class="btn-action btn-map" onclick="bukaPeta()">
+              <i class="fa-solid fa-map"></i> Peta
+            </button>
+            <button class="btn-action btn-done" onclick="selesaikanTugas('t2')">
+              <i class="fa-solid fa-check"></i> Selesai
+            </button>
+          </div>
+        </div>
+
+        <!-- Tugas 3: Jemput -->
+        <div class="task-card tipe-jemput" id="t3">
+          <div class="t-header">
+            <span class="t-badge bg-jemput">Jemput Kotor</span>
+            <span style="font-size: 0.8rem; color: #94a3b8">#PK-103</span>
+          </div>
+          <div class="t-name">Kak Naufal (Kos)</div>
+          <div class="t-address">
+            <i class="fa-solid fa-location-dot" style="color: #ef4444"></i> Jl.
+            Sigura-gura Gg 3
+          </div>
+          <div class="action-row">
+            <button class="btn-action btn-map" onclick="bukaPeta()">
+              <i class="fa-solid fa-map"></i> Peta
+            </button>
+            <button class="btn-action btn-done" onclick="selesaikanTugas('t3')">
+              <i class="fa-solid fa-check"></i> Selesai
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <i class="fa-solid fa-list-check"></i>
+          <p>Tugas</p>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <p>Riwayat</p>
+        </div>
+        <div class="nav-item">
+          <i class="fa-solid fa-user"></i>
+          <p>Akun</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- File JavaScript Eksternal -->
+    <script src="script.js"></script>
+  </body>
+</html>
