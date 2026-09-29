@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Portal Kurir - LaundryTrack</title>
+
+    <!-- Font Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- CSS Kurir -->
+    <link rel="stylesheet" href="css/kurir.css" />
+  </head>
+
+  <body>
+    <!-- ==================================================
+         HALAMAN LOGIN
+    =================================================== -->
+
+    <div id="loginScreen" class="mobile-app">
+      <div class="login-card">
+        <i class="fa-solid fa-motorcycle"></i>
+
+        <h2>Portal Kurir</h2>
+
+        <p>Sistem LaundryTrack Terpadu</p>
+
+        <!-- PILIH KURIR -->
+
+        <div class="input-group">
+          <label>PILIH KARYAWAN (KURIR)</label>
+
+          <select id="kurirSelect">
+            <option value="" disabled selected>-- Pilih Nama Kurir --</option>
+
+            <option value="Budi">Budi (ID: KR-01)</option>
+
+            <option value="Andi">Andi (ID: KR-02)</option>
+          </select>
+        </div>
+
+        <!-- PIN -->
+
+        <div class="input-group">
+          <label>PIN AKSES</label>
+
+          <input
+            type="password"
+            id="pinInput"
+            placeholder="Masukkan 4 digit PIN (Bebas)"
+            maxlength="4"
+          />
+        </div>
+
+        <!-- LOGIN -->
+
+        <button class="btn-primary" onclick="prosesLogin()">
+          Mulai Bertugas
+
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================================================
+         DASHBOARD KURIR
+    =================================================== -->
+
+    <div id="dashboardScreen" class="mobile-app">
+      <!-- HEADER -->
+
+      <div class="header">
+        <div>
+          <p class="header-greeting">Selamat bertugas,</p>
+
+          <h2 id="namaKurirText" class="kurir-name">Kurir</h2>
+        </div>
+
+        <!-- LOGOUT -->
+
+        <i
+          class="fa-solid fa-right-from-bracket logout-icon"
+          onclick="logout()"
+        ></i>
+      </div>
+
+      <!-- ==================================================
+           SECTION TUGAS
+      =================================================== -->
+
+      <section id="sectionTugas" class="content-section active-section">
+        <!-- STATISTIK -->
+
+        <div class="stats-wrapper">
+          <div class="stat-box">
+            <h3 id="countSisa">3</h3>
+
+            <p>Sisa Tugas</p>
+          </div>
+
+          <div class="stat-box">
+            <h3 id="countSelesai">0</h3>
+
+            <p>Selesai</p>
+          </div>
+        </div>
+
+        <!-- FILTER -->
+
+        <div class="filter-container">
+          <button
+            class="filter-btn active"
+            onclick="filterTugas('semua', this)"
+          >
+            Semua
+          </button>
+
+          <button class="filter-btn" onclick="filterTugas('jemput', this)">
+            Penjemputan
+          </button>
+
+          <button class="filter-btn" onclick="filterTugas('antar', this)">
+            Pengantaran
+          </button>
+        </div>
+
+        <!-- LIST TUGAS -->
+
+        <div class="task-list" id="taskList">
+          <!-- ==============================
+               TUGAS 1
+          =============================== -->
+
+          <div class="task-card tipe-jemput" id="t1">
+            <div class="t-header">
+              <span class="t-badge bg-jemput"> Jemput Kotor </span>
+
+              <span class="task-id"> #PK-102 </span>
+            </div>
+
+            <div class="t-name">Bapak Agus</div>
+
+            <div class="t-address">
+              <i class="fa-solid fa-location-dot location-icon"></i>
+
+              Jl. Mawar No. 12, Malang
+            </div>
+
+            <div class="action-row">
+              <button class="btn-action btn-map" onclick="bukaPeta()">
+                <i class="fa-solid fa-map"></i>
+
+                Peta
+              </button>
+
+              <button
+                class="btn-action btn-done"
+                onclick="selesaikanTugas('t1')"
+              >
+                <i class="fa-solid fa-check"></i>
+
+                Selesai
+              </button>
+            </div>
+          </div>
+
+          <!-- ==============================
+               TUGAS 2
+          =============================== -->
+
+          <div class="task-card tipe-antar" id="t2">
+            <div class="t-header">
+              <span class="t-badge bg-antar"> Antar Bersih </span>
+
+              <span class="task-id"> #INV-098 </span>
+            </div>
+
+            <div class="t-name">Ibu Siti Aminah</div>
+
+            <div class="t-address">
+              <i class="fa-solid fa-location-dot location-icon"></i>
+
+              Perum Tidar Blok C2 (Titip Satpam)
+            </div>
+
+            <div class="action-row">
+              <button class="btn-action btn-map" onclick="bukaPeta()">
+                <i class="fa-solid fa-map"></i>
+
+                Peta
+              </button>
+
+              <button
+                class="btn-action btn-done"
+                onclick="selesaikanTugas('t2')"
+              >
+                <i class="fa-solid fa-check"></i>
+
+                Selesai
+              </button>
+            </div>
+          </div>
+
+          <!-- ==============================
+               TUGAS 3
+          =============================== -->
+
+          <div class="task-card tipe-jemput" id="t3">
+            <div class="t-header">
+              <span class="t-badge bg-jemput"> Jemput Kotor </span>
+
+              <span class="task-id"> #PK-103 </span>
+            </div>
+
+            <div class="t-name">Kak Naufal (Kos)</div>
+
+            <div class="t-address">
+              <i class="fa-solid fa-location-dot location-icon"></i>
+
+              Jl. Sigura-gura Gg 3
+            </div>
+
+            <div class="action-row">
+              <button class="btn-action btn-map" onclick="bukaPeta()">
+                <i class="fa-solid fa-map"></i>
+
+                Peta
+              </button>
+
+              <button
+                class="btn-action btn-done"
+                onclick="selesaikanTugas('t3')"
+              >
+                <i class="fa-solid fa-check"></i>
+
+                Selesai
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================
+           SECTION RIWAYAT
+      =================================================== -->
+
+      <section id="sectionRiwayat" class="content-section">
+        <div class="page-title">
+          <h2>Riwayat Tugas</h2>
+
+          <p>Daftar tugas yang telah diselesaikan.</p>
+        </div>
+
+        <!-- PESAN JIKA BELUM ADA RIWAYAT -->
+
+        <div id="emptyHistory" class="empty-state">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+
+          <h3>Belum Ada Riwayat</h3>
+
+          <p>Tugas yang sudah selesai akan muncul di sini.</p>
+        </div>
+
+        <!-- TEMPAT RIWAYAT -->
+
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <!-- ==================================================
+           SECTION AKUN
+      =================================================== -->
+
+      <section id="sectionAkun" class="content-section">
+        <div class="page-title">
+          <h2>Akun Saya</h2>
+
+          <p>Informasi akun kurir.</p>
+        </div>
+
+        <!-- PROFILE CARD -->
+
+        <div class="profile-card">
+          <div class="profile-icon">
+            <i class="fa-solid fa-user"></i>
+          </div>
+
+          <h2 id="akunNama">Kurir</h2>
+
+          <p id="akunId">ID: -</p>
+
+          <div class="profile-status">
+            <i class="fa-solid fa-circle"></i>
+
+            Aktif
+          </div>
+        </div>
+
+        <!-- INFO -->
+
+        <div class="account-info">
+          <div class="account-item">
+            <i class="fa-solid fa-motorcycle"></i>
+
+            <div>
+              <span> Posisi </span>
+
+              <strong> Kurir LaundryTrack </strong>
+            </div>
+          </div>
+
+          <div class="account-item">
+            <i class="fa-solid fa-id-card"></i>
+
+            <div>
+              <span> Status </span>
+
+              <strong> Aktif Bertugas </strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOGOUT -->
+
+        <button class="btn-logout-account" onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+
+          Keluar dari Akun
+        </button>
+      </section>
+
+      <!-- ==================================================
+           BOTTOM NAVIGATION
+      =================================================== -->
+
+      <div class="bottom-nav">
+        <!-- TUGAS -->
+
+        <div class="nav-item active" onclick="bukaSection('tugas', this)">
+          <i class="fa-solid fa-list-check"></i>
+
+          <p>Tugas</p>
+        </div>
+
+        <!-- RIWAYAT -->
+
+        <div class="nav-item" onclick="bukaSection('riwayat', this)">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+
+          <p>Riwayat</p>
+        </div>
+
+        <!-- AKUN -->
+
+        <div class="nav-item" onclick="bukaSection('akun', this)">
+          <i class="fa-solid fa-user"></i>
+
+          <p>Akun</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Kurir -->
+    <script src="js/kurir.js"></script>
+  </body>
+</html>
