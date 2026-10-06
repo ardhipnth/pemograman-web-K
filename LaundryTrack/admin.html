@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Admin - LaundryTrack</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: { extend: { fontFamily: { sans: ["Poppins", "sans-serif"] } } },
+      };
+    </script>
+  </head>
+
+  <body class="bg-slate-100 font-sans text-slate-800">
+    <!-- SIDEBAR -->
+    <aside
+      class="fixed left-0 top-0 z-[1000] h-screen w-[70px] bg-slate-900 px-2.5 py-5 text-white md:w-[250px] md:px-[18px] md:py-[25px]"
+    >
+      <div
+        class="flex items-center justify-center gap-3 border-b border-slate-700 pb-6 text-xl font-bold md:justify-start md:px-3 md:pb-[30px]"
+      >
+        <i class="fa-solid fa-water text-2xl text-sky-400"></i>
+        <span class="hidden md:inline">LaundryTrack</span>
+      </div>
+
+      <ul class="mt-[25px] space-y-2">
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center gap-3.5 rounded-[10px] bg-sky-500 px-1 py-[13px] text-sm text-white shadow-[0_4px_12px_rgba(14,165,233,0.25)] md:justify-start md:px-[15px]"
+          >
+            <i class="fa-solid fa-house w-5 text-center"></i
+            ><span class="hidden md:inline">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center gap-3.5 rounded-[10px] px-1 py-[13px] text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white md:justify-start md:px-[15px]"
+          >
+            <i class="fa-solid fa-shirt w-5 text-center"></i
+            ><span class="hidden md:inline">Pesanan</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center gap-3.5 rounded-[10px] px-1 py-[13px] text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white md:justify-start md:px-[15px]"
+          >
+            <i class="fa-solid fa-motorcycle w-5 text-center"></i
+            ><span class="hidden md:inline">Armada Kurir</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center gap-3.5 rounded-[10px] px-1 py-[13px] text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white md:justify-start md:px-[15px]"
+          >
+            <i class="fa-solid fa-users w-5 text-center"></i
+            ><span class="hidden md:inline">Pelanggan</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="flex items-center justify-center gap-3.5 rounded-[10px] px-1 py-[13px] text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white md:justify-start md:px-[15px]"
+          >
+            <i class="fa-solid fa-chart-line w-5 text-center"></i
+            ><span class="hidden md:inline">Laporan</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="ml-[70px] min-h-screen md:ml-[250px]">
+      <header
+        class="flex min-h-[75px] items-center justify-between border-b border-slate-200 bg-white px-5 py-[15px] md:h-[85px] md:px-[35px]"
+      >
+        <div>
+          <h2
+            class="mb-1 text-[1.05rem] font-semibold text-slate-800 md:text-[1.35rem]"
+          >
+            Dashboard Overview
+          </h2>
+          <p class="text-[0.68rem] text-slate-500 md:text-[0.8rem]">
+            Pantau semua operasional laundry hari ini.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-[15px]">
+          <div
+            class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] bg-slate-50 text-slate-500 transition hover:bg-sky-100 hover:text-sky-600"
+          >
+            <i class="fa-solid fa-bell"></i>
+          </div>
+          <div class="hidden text-right md:block">
+            <h4 class="text-[0.85rem] font-semibold text-slate-700">
+              Admin Pusat
+            </h4>
+            <p class="text-[0.7rem] text-slate-400">Cabang Malang</p>
+          </div>
+          <img
+            src="https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff&rounded=true"
+            alt="Admin"
+            class="h-[38px] w-[38px] rounded-full md:h-[45px] md:w-[45px]"
+          />
+        </div>
+      </header>
+
+      <div class="p-4 md:p-5 lg:px-[35px] lg:py-[30px]">
+        <!-- STATISTIK -->
+        <div
+          class="mb-[30px] grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-4 lg:gap-5"
+        >
+          <div
+            class="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white p-[15px] shadow-[0_3px_10px_rgba(15,23,42,0.04)] transition hover:-translate-y-[3px] lg:gap-4 lg:p-[22px]"
+          >
+            <div
+              class="flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-sky-100 text-base text-sky-600 lg:h-[50px] lg:w-[50px] lg:text-[1.2rem]"
+            >
+              <i class="fa-solid fa-shirt"></i>
+            </div>
+            <div>
+              <h3
+                id="statMasuk"
+                class="mb-[3px] text-[1.05rem] font-semibold text-slate-800 lg:text-[1.35rem]"
+              >
+                0
+              </h3>
+              <p class="text-[0.62rem] text-slate-500 lg:text-[0.72rem]">
+                Pesanan Masuk
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white p-[15px] shadow-[0_3px_10px_rgba(15,23,42,0.04)] transition hover:-translate-y-[3px] lg:gap-4 lg:p-[22px]"
+          >
+            <div
+              class="flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-amber-100 text-base text-amber-600 lg:h-[50px] lg:w-[50px] lg:text-[1.2rem]"
+            >
+              <i class="fa-solid fa-motorcycle"></i>
+            </div>
+            <div>
+              <h3
+                id="statJemput"
+                class="mb-[3px] text-[1.05rem] font-semibold text-slate-800 lg:text-[1.35rem]"
+              >
+                0
+              </h3>
+              <p class="text-[0.62rem] text-slate-500 lg:text-[0.72rem]">
+                Menunggu Penjemputan
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white p-[15px] shadow-[0_3px_10px_rgba(15,23,42,0.04)] transition hover:-translate-y-[3px] lg:gap-4 lg:p-[22px]"
+          >
+            <div
+              class="flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-violet-100 text-base text-violet-600 lg:h-[50px] lg:w-[50px] lg:text-[1.2rem]"
+            >
+              <i class="fa-solid fa-soap"></i>
+            </div>
+            <div>
+              <h3
+                id="statProses"
+                class="mb-[3px] text-[1.05rem] font-semibold text-slate-800 lg:text-[1.35rem]"
+              >
+                0
+              </h3>
+              <p class="text-[0.62rem] text-slate-500 lg:text-[0.72rem]">
+                Proses Cuci
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white p-[15px] shadow-[0_3px_10px_rgba(15,23,42,0.04)] transition hover:-translate-y-[3px] lg:gap-4 lg:p-[22px]"
+          >
+            <div
+              class="flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-green-100 text-base text-green-600 lg:h-[50px] lg:w-[50px] lg:text-[1.2rem]"
+            >
+              <i class="fa-solid fa-check-double"></i>
+            </div>
+            <div>
+              <h3
+                id="statUang"
+                class="mb-[3px] text-[1.05rem] font-semibold text-slate-800 lg:text-[1.35rem]"
+              >
+                Rp 0
+              </h3>
+              <p class="text-[0.62rem] text-slate-500 lg:text-[0.72rem]">
+                Pendapatan Hari Ini
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABEL PESANAN -->
+        <div
+          class="overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_3px_10px_rgba(15,23,42,0.04)]"
+        >
+          <div
+            class="flex items-center justify-between border-b border-slate-200 p-[18px] lg:px-[25px] lg:py-[22px]"
+          >
+            <h3
+              class="text-[0.85rem] font-semibold text-slate-800 lg:text-base"
+            >
+              Pesanan Aktif (Live Tracking)
+            </h3>
+
+            <div class="flex items-center gap-1">
+              <button
+                onclick="resetData()"
+                class="cursor-pointer rounded-[7px] bg-slate-100 px-2.5 py-[7px] text-[0.68rem] text-slate-500 transition hover:bg-slate-200 hover:text-slate-700"
+              >
+                <i class="fa-solid fa-rotate-left"></i> Reset Data
+              </button>
+              <button
+                onclick="bukaFormOrder()"
+                class="cursor-pointer rounded-lg bg-sky-500 px-2.5 py-2 text-[0.68rem] text-white transition hover:bg-sky-600 lg:px-4 lg:py-2.5 lg:text-[0.8rem]"
+              >
+                <i class="fa-solid fa-plus mr-1"></i>Order Baru
+              </button>
+            </div>
+          </div>
+
+          <div class="w-full overflow-x-auto">
+            <table class="w-full min-w-[850px] border-collapse">
+              <thead class="bg-slate-50">
+                <tr
+                  class="text-left text-[0.72rem] font-semibold text-slate-500"
+                >
+                  <th
+                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
+                  >
+                    ID Nota
+                  </th>
+                  <th
+                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
+                  >
+                    Nama Pelanggan
+                  </th>
+                  <th
+                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
+                  >
+                    Layanan
+                  </th>
+                  <th
+                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
+                  >
+                    Status Saat Ini
+                  </th>
+                  <th
+                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
+                  >
+                    Kurir
+                  </th>
+                  <th
+                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
+                  >
+                    Aksi
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="orderBody"
+                class="[&>tr:last-child>td]:border-b-0"
+              ></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="modalRoot"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>

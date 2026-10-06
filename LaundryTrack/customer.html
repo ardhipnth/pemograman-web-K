@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cek Status - LaundryTrack & Delivery</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Hanya untuk hal yang belum ada di Tailwind: font & animasi custom
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Poppins", "sans-serif"] },
+            keyframes: {
+              float: {
+                "0%,100%": { transform: "translateY(0) scale(1)" },
+                "50%": { transform: "translateY(-30px) scale(1.1)" },
+              },
+              ring: {
+                "0%": { boxShadow: "0 0 0 0 rgba(56,189,248,0.4)" },
+                "70%": { boxShadow: "0 0 0 10px rgba(56,189,248,0)" },
+                "100%": { boxShadow: "0 0 0 0 rgba(56,189,248,0)" },
+              },
+              fadeIn: {
+                from: { opacity: 0, transform: "translateY(10px)" },
+                to: { opacity: 1, transform: "none" },
+              },
+            },
+            animation: {
+              float: "float 8s ease-in-out infinite",
+              ring: "ring 2s infinite",
+              "fade-in": "fadeIn 0.5s ease-out",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body
+    class="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-sky-100 to-sky-200 p-5 font-sans"
+  >
+    <!-- Gelembung dekorasi -->
+    <div
+      class="absolute -bottom-5 left-[10%] h-20 w-20 animate-float rounded-full bg-white/40 [animation-duration:6s]"
+    ></div>
+    <div
+      class="absolute bottom-[50px] left-[80%] h-[120px] w-[120px] animate-float rounded-full bg-white/40 [animation-duration:9s]"
+    ></div>
+    <div
+      class="absolute left-[40%] top-[10%] h-[50px] w-[50px] animate-float rounded-full bg-white/40 [animation-duration:7s]"
+    ></div>
+
+    <div
+      class="relative z-10 w-full max-w-[450px] rounded-[20px] bg-white px-[30px] py-10 text-center shadow-[0_15px_35px_rgba(2,132,199,0.15)]"
+    >
+      <!-- Form pencarian -->
+      <div id="searchSection">
+        <div class="mb-[15px] text-[50px] text-sky-500">
+          <i class="fa-solid fa-water"></i>
+        </div>
+
+        <h1 class="mb-1 text-2xl font-semibold text-slate-900">LaundryTrack</h1>
+        <p class="mb-[30px] text-[0.9rem] text-slate-500">
+          Pantau cucianmu tanpa perlu tanya admin.
+        </p>
+
+        <div class="relative mb-5">
+          <i
+            class="fa-solid fa-phone absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"
+          ></i>
+          <input
+            type="text"
+            id="noHpInput"
+            placeholder="Masukkan Nomor HP Anda..."
+            autocomplete="off"
+            class="w-full rounded-xl border-2 border-slate-200 py-[15px] pl-[50px] pr-[15px] text-base outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10"
+          />
+        </div>
+
+        <p
+          id="errorMsg"
+          class="-mt-2 mb-[15px] min-h-[1em] text-sm text-red-600"
+        ></p>
+
+        <button
+          onclick="cekStatus()"
+          class="flex w-full items-center justify-center gap-2.5 rounded-xl bg-sky-500 p-[15px] text-base font-semibold text-white transition hover:bg-sky-600 active:scale-[0.98]"
+        >
+          Lacak Cucian
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <!-- Hasil pencarian (awalnya sembunyi) -->
+      <div
+        id="resultSection"
+        class="mt-[30px] hidden animate-fade-in text-left"
+      >
+        <div
+          class="mb-[25px] rounded-xl border-l-4 border-sky-500 bg-slate-50 p-[15px]"
+        >
+          <h3
+            id="cNama"
+            class="text-[1.1rem] font-semibold text-slate-900"
+          ></h3>
+          <p id="cNota" class="mt-1 text-[0.85rem] text-slate-500"></p>
+        </div>
+
+        <div id="timeline" class="relative mb-2.5 flex justify-between"></div>
+
+        <div
+          id="statusMsg"
+          class="mt-5 rounded-lg bg-emerald-50 p-2.5 text-center text-[0.9rem] font-medium text-emerald-600"
+        ></div>
+
+        <button
+          onclick="resetForm()"
+          class="mt-[15px] w-full text-[0.9rem] text-slate-400 underline hover:text-slate-500"
+        >
+          Cek Nomor Lain
+        </button>
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/customer.js"></script>
+  </body>
+</html>

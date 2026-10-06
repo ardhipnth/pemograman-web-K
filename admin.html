@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Admin - LaundryTrack</title>
+
+    <!-- Font Poppins & FontAwesome -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- File CSS Eksternal -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-water"></i>
+        <span>LaundryTrack</span>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#" class="nav-link active"
+            ><i class="fa-solid fa-house"></i> Dashboard</a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link"
+            ><i class="fa-solid fa-shirt"></i> Pesanan</a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link"
+            ><i class="fa-solid fa-motorcycle"></i> Armada Kurir</a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link"
+            ><i class="fa-solid fa-users"></i> Pelanggan</a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link"
+            ><i class="fa-solid fa-chart-line"></i> Laporan</a
+          >
+        </li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <!-- HEADER -->
+      <header class="top-header">
+        <div class="header-title">
+          <h2>Dashboard Overview</h2>
+          <p>Pantau semua operasional laundry hari ini.</p>
+        </div>
+        <div class="admin-profile">
+          <div class="icon-btn">
+            <i class="fa-solid fa-bell"></i>
+          </div>
+          <div class="admin-info">
+            <h4>Admin Pusat</h4>
+            <p>Cabang Malang</p>
+          </div>
+          <img
+            src="https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff&rounded=true"
+            alt="Admin"
+            width="45"
+          />
+        </div>
+      </header>
+
+      <!-- BODY DASHBOARD -->
+      <div class="dashboard-body">
+        <!-- KARTU STATISTIK -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">
+              <i class="fa-solid fa-shirt"></i>
+            </div>
+            <div class="stat-details">
+              <h3>24</h3>
+              <p>Pesanan Masuk</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-yellow">
+              <i class="fa-solid fa-motorcycle"></i>
+            </div>
+            <div class="stat-details">
+              <h3>8</h3>
+              <p>Menunggu Penjemputan</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-purple">
+              <i class="fa-solid fa-soap"></i>
+            </div>
+            <div class="stat-details">
+              <h3>12</h3>
+              <p>Proses Cuci</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-green">
+              <i class="fa-solid fa-check-double"></i>
+            </div>
+            <div class="stat-details">
+              <h3>Rp 1.2M</h3>
+              <p>Pendapatan Hari Ini</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABEL PESANAN AKTIF -->
+        <div class="order-section">
+          <div class="section-header">
+            <h3>Pesanan Aktif (Live Tracking)</h3>
+            <button class="btn-tambah">
+              <i class="fa-solid fa-plus"></i> Order Baru
+            </button>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID Nota</th>
+                <th>Nama Pelanggan</th>
+                <th>Layanan</th>
+                <th>Status Saat Ini</th>
+                <th>Kurir</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Baris 1: Perlu Dijemput -->
+              <tr id="row-1">
+                <td class="order-id">#PK-102</td>
+                <td>
+                  <strong>Bapak Agus</strong><br />
+                  <span style="font-size: 0.8rem; color: #94a3b8"
+                    ><i class="fa-solid fa-location-dot"></i> Jl. Mawar No.
+                    12</span
+                  >
+                </td>
+                <td>Cuci Kering</td>
+                <td>
+                  <span class="badge badge-jemput">Menunggu Penjemputan</span>
+                </td>
+                <td>-</td>
+                <td class="action-btns">
+                  <button
+                    class="btn-sm btn-assign"
+                    onclick="tugaskanKurir('row-1', 'Budi')"
+                    title="Tugaskan Kurir"
+                  >
+                    <i class="fa-solid fa-motorcycle"></i> Assign
+                  </button>
+                  <button class="btn-sm btn-view" title="Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Baris 2: Sedang Dicuci -->
+              <tr>
+                <td class="order-id">#INV-0982</td>
+                <td>
+                  <strong>Kak Naufal</strong><br />
+                  <span style="font-size: 0.8rem; color: #94a3b8"
+                    ><i class="fa-solid fa-location-dot"></i> Kos
+                    Sigura-gura</span
+                  >
+                </td>
+                <td>Cuci Setrika + Antar</td>
+                <td><span class="badge badge-cuci">Sedang Disetrika</span></td>
+                <td><strong style="color: #475569">Andi (KR-02)</strong></td>
+                <td class="action-btns">
+                  <button class="btn-sm btn-view" title="Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Baris 3: Siap Diantar -->
+              <tr>
+                <td class="order-id">#INV-098</td>
+                <td>
+                  <strong>Ibu Siti Aminah</strong><br />
+                  <span style="font-size: 0.8rem; color: #94a3b8"
+                    ><i class="fa-solid fa-location-dot"></i> Perum Tidar
+                    C2</span
+                  >
+                </td>
+                <td>Cuci Karpet</td>
+                <td><span class="badge badge-antar">Siap Diantar</span></td>
+                <td><strong style="color: #475569">Budi (KR-01)</strong></td>
+                <td class="action-btns">
+                  <button class="btn-sm btn-view" title="Detail">
+                    <i class="fa-solid fa-eye"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- File JavaScript Eksternal -->
+    <script src="script.js"></script>
+  </body>
+</html>
