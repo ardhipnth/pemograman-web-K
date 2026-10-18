@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Admin - LaundryTrack</title>
+
+    <title>Admin - LaundryTrack</title>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
@@ -14,282 +15,853 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
 
-    <!-- Tailwind CSS (CDN) -->
+    <!-- TAILWIND (preflight dimatikan agar CSS custom tidak rusak) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
-        theme: { extend: { fontFamily: { sans: ["Poppins", "sans-serif"] } } },
+        corePlugins: { preflight: false },
       };
     </script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f5f7fb;
+        color: #1e293b;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font-family: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 250px;
+        height: 100vh;
+        background: #ffffff;
+        border-right: 1px solid #e5e7eb;
+        padding: 25px 18px;
+        z-index: 1000;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 12px 35px;
+        font-size: 21px;
+        font-weight: 700;
+      }
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: #0ea5e9;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav-menu {
+        list-style: none;
+      }
+      .nav-item {
+        margin-bottom: 8px;
+      }
+      .nav-link {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px;
+        border-radius: 12px;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.2s;
+      }
+      .nav-link i {
+        width: 20px;
+        text-align: center;
+      }
+      .nav-link:hover {
+        background: #f0f9ff;
+        color: #0284c7;
+      }
+      .nav-link.active {
+        background: #e0f2fe;
+        color: #0284c7;
+        font-weight: 600;
+      }
+
+      .main-content {
+        margin-left: 250px;
+        min-height: 100vh;
+      }
+      .top-header {
+        height: 90px;
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 0 35px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .header-title h1 {
+        font-size: 23px;
+        margin-bottom: 4px;
+      }
+      .header-title p {
+        color: #94a3b8;
+        font-size: 13px;
+      }
+      .admin-profile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .notification-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #64748b;
+        border: none;
+      }
+      .logout-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: #fee2e2;
+        color: #dc2626;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+      }
+      .logout-btn:hover {
+        background: #fecaca;
+      }
+      .admin-info {
+        text-align: right;
+      }
+      .admin-info h4 {
+        font-size: 14px;
+      }
+      .admin-info p {
+        color: #94a3b8;
+        font-size: 12px;
+      }
+      .admin-profile img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+      }
+
+      .dashboard-body {
+        padding: 30px 35px 50px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 25px;
+      }
+      .stat-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 17px;
+        padding: 22px;
+        display: flex;
+        align-items: center;
+        gap: 17px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+      }
+      .stat-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .icon-blue {
+        background: #e0f2fe;
+        color: #0284c7;
+      }
+      .icon-yellow {
+        background: #fef3c7;
+        color: #d97706;
+      }
+      .icon-purple {
+        background: #ede9fe;
+        color: #7c3aed;
+      }
+      .icon-green {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+      .stat-details h3 {
+        font-size: 22px;
+        margin-bottom: 3px;
+      }
+      .stat-details p {
+        color: #94a3b8;
+        font-size: 12px;
+      }
+
+      .content-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+      .section-header h2 {
+        font-size: 19px;
+        margin-bottom: 4px;
+      }
+      .section-header p {
+        color: #94a3b8;
+        font-size: 12px;
+      }
+
+      .btn {
+        border: none;
+        border-radius: 9px;
+        padding: 10px 14px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .btn-primary {
+        background: #0ea5e9;
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #0284c7;
+      }
+      .btn-secondary {
+        background: #f1f5f9;
+        color: #475569;
+      }
+      .btn-success {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .btn-warning {
+        background: #fef3c7;
+        color: #b45309;
+      }
+      .btn-danger {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+      .btn-info {
+        background: #e0f2fe;
+        color: #0284c7;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .search-box {
+        flex: 1;
+        position: relative;
+      }
+      .search-box i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+      }
+      .search-box input {
+        width: 100%;
+        padding: 11px 15px 11px 40px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        outline: none;
+        background: #f8fafc;
+      }
+      .toolbar select {
+        min-width: 190px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px;
+        background: #f8fafc;
+      }
+
+      .table-container {
+        width: 100%;
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 900px;
+      }
+      th {
+        background: #f8fafc;
+        color: #64748b;
+        font-size: 11px;
+        text-align: left;
+        padding: 14px;
+        text-transform: uppercase;
+      }
+      td {
+        padding: 15px 14px;
+        border-top: 1px solid #f1f5f9;
+        font-size: 12px;
+      }
+      .order-id {
+        color: #0284c7;
+        font-weight: 700;
+      }
+
+      .badge {
+        display: inline-flex;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .badge-jemput {
+        background: #fef3c7;
+        color: #b45309;
+      }
+      .badge-assigned {
+        background: #dbeafe;
+        color: #2563eb;
+      }
+      .badge-cuci {
+        background: #ede9fe;
+        color: #7c3aed;
+      }
+      .badge-antar {
+        background: #cffafe;
+        color: #0891b2;
+      }
+      .badge-selesai {
+        background: #dcfce7;
+        color: #15803d;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .action-buttons .btn {
+        padding: 7px 9px;
+        font-size: 10px;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 50px 20px;
+        color: #94a3b8;
+      }
+      .empty-state i {
+        display: block;
+        font-size: 35px;
+        margin-bottom: 12px;
+        color: #cbd5e1;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .info-card {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 13px;
+        padding: 18px;
+      }
+      .info-card h3 {
+        font-size: 15px;
+        margin-bottom: 8px;
+      }
+      .info-card p {
+        font-size: 12px;
+        color: #64748b;
+        margin: 4px 0;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 9999;
+      }
+      .modal {
+        width: 100%;
+        max-width: 550px;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: white;
+        border-radius: 18px;
+        padding: 25px;
+      }
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .modal-header h3 {
+        font-size: 18px;
+      }
+      .close-modal {
+        width: 34px;
+        height: 34px;
+        border: none;
+        border-radius: 8px;
+        background: #f1f5f9;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 7px;
+        color: #475569;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 11px;
+        border: 1px solid #e2e8f0;
+        border-radius: 9px;
+        outline: none;
+        background: #f8fafc;
+      }
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .reset-area {
+        margin-top: 25px;
+        padding: 18px;
+        border: 1px solid #fecaca;
+        border-radius: 12px;
+        background: #fffafa;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .reset-area h3 {
+        font-size: 14px;
+        color: #991b1b;
+      }
+      .reset-area p {
+        color: #b91c1c;
+        font-size: 11px;
+        margin-top: 3px;
+      }
+
+      /* LOGIN OVERLAY ADMIN */
+      #adminLoginOverlay {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+      }
+      #adminLoginOverlay.hidden {
+        display: none;
+      }
+      .admin-login-card {
+        width: 100%;
+        max-width: 400px;
+        background: white;
+        border-radius: 20px;
+        padding: 32px 28px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+      }
+      .admin-login-card .login-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        background: #e0f2fe;
+        color: #0284c7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        margin: 0 auto 18px;
+      }
+      .admin-login-card h2 {
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 6px;
+        color: #0f172a;
+      }
+      .admin-login-card p.sub {
+        text-align: center;
+        color: #94a3b8;
+        font-size: 12px;
+        margin-bottom: 24px;
+      }
+      .admin-login-card .form-group input {
+        background: white;
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+      .admin-login-card .btn-login {
+        width: 100%;
+        border: none;
+        padding: 13px;
+        background: #0ea5e9;
+        color: white;
+        font-weight: 600;
+        border-radius: 10px;
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      .admin-login-card .btn-login:hover {
+        background: #0284c7;
+      }
+      .admin-login-error {
+        color: #dc2626;
+        font-size: 12px;
+        margin-top: 12px;
+        text-align: center;
+        min-height: 1em;
+      }
+      .admin-login-hint {
+        margin-top: 18px;
+        padding: 12px;
+        border-radius: 10px;
+        background: #f0f9ff;
+        color: #0369a1;
+        font-size: 11px;
+        text-align: center;
+      }
+
+      @media (max-width: 1100px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 750px) {
+        .sidebar {
+          width: 75px;
+        }
+        .brand span,
+        .nav-link span {
+          display: none;
+        }
+        .brand {
+          justify-content: center;
+        }
+        .nav-link {
+          justify-content: center;
+        }
+        .main-content {
+          margin-left: 75px;
+        }
+        .dashboard-body {
+          padding: 20px;
+        }
+        .top-header {
+          padding: 0 20px;
+        }
+        .admin-info {
+          display: none;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
 
-  <body class="bg-slate-100 font-sans text-slate-800">
+  <body>
+    <!-- LOGIN OVERLAY ADMIN -->
+    <div id="adminLoginOverlay">
+      <div class="admin-login-card">
+        <div class="login-icon">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h2>Login Admin LaundryTrack</h2>
+        <p class="sub">Masukkan kredensial untuk mengakses dashboard.</p>
+
+        <div class="form-group">
+          <label>Username</label>
+          <input
+            id="adminUserInput"
+            type="text"
+            placeholder="admin"
+            autocomplete="username"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>PIN</label>
+          <input
+            id="adminPinInput"
+            type="password"
+            placeholder="••••••"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button class="btn-login" id="adminLoginBtn">
+          <i class="fa-solid fa-right-to-bracket"></i> Masuk
+        </button>
+
+        <div class="admin-login-error" id="adminLoginError"></div>
+
+        <div class="admin-login-hint">
+          Demo: username <strong>admin</strong> · PIN <strong>admin123</strong>
+        </div>
+      </div>
+    </div>
+
     <!-- SIDEBAR -->
-    <aside
-      class="fixed left-0 top-0 z-[1000] h-screen w-[70px] bg-slate-900 px-2.5 py-5 text-white md:w-[250px] md:px-[18px] md:py-[25px]"
-    >
-      <div
-        class="flex items-center justify-center gap-3 border-b border-slate-700 pb-6 text-xl font-bold md:justify-start md:px-3 md:pb-[30px]"
-      >
-        <i class="fa-solid fa-water text-2xl text-sky-400"></i>
-        <span class="hidden md:inline">LaundryTrack</span>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-water"></i></div>
+        <span>LaundryTrack</span>
       </div>
 
-      <ul class="mt-[25px] space-y-2">
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center gap-3.5 rounded-[10px] bg-sky-500 px-1 py-[13px] text-sm text-white shadow-[0_4px_12px_rgba(14,165,233,0.25)] md:justify-start md:px-[15px]"
-          >
-            <i class="fa-solid fa-house w-5 text-center"></i
-            ><span class="hidden md:inline">Dashboard</span>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#" class="nav-link active" data-page="dashboard">
+            <i class="fa-solid fa-house"></i><span>Dashboard</span>
           </a>
         </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center gap-3.5 rounded-[10px] px-1 py-[13px] text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white md:justify-start md:px-[15px]"
-          >
-            <i class="fa-solid fa-shirt w-5 text-center"></i
-            ><span class="hidden md:inline">Pesanan</span>
+        <li class="nav-item">
+          <a href="#" class="nav-link" data-page="pesanan">
+            <i class="fa-solid fa-shirt"></i><span>Pesanan</span>
           </a>
         </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center gap-3.5 rounded-[10px] px-1 py-[13px] text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white md:justify-start md:px-[15px]"
-          >
-            <i class="fa-solid fa-motorcycle w-5 text-center"></i
-            ><span class="hidden md:inline">Armada Kurir</span>
+        <li class="nav-item">
+          <a href="#" class="nav-link" data-page="armada">
+            <i class="fa-solid fa-motorcycle"></i><span>Armada Kurir</span>
           </a>
         </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center gap-3.5 rounded-[10px] px-1 py-[13px] text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white md:justify-start md:px-[15px]"
-          >
-            <i class="fa-solid fa-users w-5 text-center"></i
-            ><span class="hidden md:inline">Pelanggan</span>
+        <li class="nav-item">
+          <a href="#" class="nav-link" data-page="pelanggan">
+            <i class="fa-solid fa-users"></i><span>Pelanggan</span>
           </a>
         </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center gap-3.5 rounded-[10px] px-1 py-[13px] text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white md:justify-start md:px-[15px]"
-          >
-            <i class="fa-solid fa-chart-line w-5 text-center"></i
-            ><span class="hidden md:inline">Laporan</span>
+        <li class="nav-item">
+          <a href="#" class="nav-link" data-page="laporan">
+            <i class="fa-solid fa-chart-line"></i><span>Laporan</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" data-page="paket">
+            <i class="fa-solid fa-tags"></i><span>Paket Layanan</span>
           </a>
         </li>
       </ul>
     </aside>
 
     <!-- MAIN -->
-    <main class="ml-[70px] min-h-screen md:ml-[250px]">
-      <header
-        class="flex min-h-[75px] items-center justify-between border-b border-slate-200 bg-white px-5 py-[15px] md:h-[85px] md:px-[35px]"
-      >
-        <div>
-          <h2
-            class="mb-1 text-[1.05rem] font-semibold text-slate-800 md:text-[1.35rem]"
-          >
-            Dashboard Overview
-          </h2>
-          <p class="text-[0.68rem] text-slate-500 md:text-[0.8rem]">
-            Pantau semua operasional laundry hari ini.
-          </p>
+    <main class="main-content">
+      <header class="top-header">
+        <div class="header-title">
+          <h1 id="pageTitle">Dashboard Overview</h1>
+          <p id="pageDescription">Pantau semua operasional laundry hari ini.</p>
         </div>
 
-        <div class="flex items-center gap-[15px]">
-          <div
-            class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[10px] bg-slate-50 text-slate-500 transition hover:bg-sky-100 hover:text-sky-600"
-          >
-            <i class="fa-solid fa-bell"></i>
-          </div>
-          <div class="hidden text-right md:block">
-            <h4 class="text-[0.85rem] font-semibold text-slate-700">
-              Admin Pusat
-            </h4>
-            <p class="text-[0.7rem] text-slate-400">Cabang Malang</p>
+        <div class="admin-profile">
+          <div class="notification-btn"><i class="fa-solid fa-bell"></i></div>
+          <button class="logout-btn" onclick="adminLogout()" title="Logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+          <div class="admin-info">
+            <h4>Admin Pusat</h4>
+            <p>Cabang Malang</p>
           </div>
           <img
             src="https://ui-avatars.com/api/?name=Admin&background=0ea5e9&color=fff&rounded=true"
             alt="Admin"
-            class="h-[38px] w-[38px] rounded-full md:h-[45px] md:w-[45px]"
           />
         </div>
       </header>
 
-      <div class="p-4 md:p-5 lg:px-[35px] lg:py-[30px]">
-        <!-- STATISTIK -->
-        <div
-          class="mb-[30px] grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-4 lg:gap-5"
-        >
-          <div
-            class="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white p-[15px] shadow-[0_3px_10px_rgba(15,23,42,0.04)] transition hover:-translate-y-[3px] lg:gap-4 lg:p-[22px]"
-          >
-            <div
-              class="flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-sky-100 text-base text-sky-600 lg:h-[50px] lg:w-[50px] lg:text-[1.2rem]"
-            >
-              <i class="fa-solid fa-shirt"></i>
+      <div class="dashboard-body">
+        <!-- DASHBOARD -->
+        <div id="dashboardPage">
+          <section class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon icon-blue">
+                <i class="fa-solid fa-shirt"></i>
+              </div>
+              <div class="stat-details">
+                <h3 id="statMasuk">0</h3>
+                <p>Pesanan Masuk</p>
+              </div>
             </div>
-            <div>
-              <h3
-                id="statMasuk"
-                class="mb-[3px] text-[1.05rem] font-semibold text-slate-800 lg:text-[1.35rem]"
-              >
-                0
-              </h3>
-              <p class="text-[0.62rem] text-slate-500 lg:text-[0.72rem]">
-                Pesanan Masuk
-              </p>
+            <div class="stat-card">
+              <div class="stat-icon icon-yellow">
+                <i class="fa-solid fa-motorcycle"></i>
+              </div>
+              <div class="stat-details">
+                <h3 id="statJemput">0</h3>
+                <p>Menunggu Penjemputan</p>
+              </div>
             </div>
-          </div>
+            <div class="stat-card">
+              <div class="stat-icon icon-purple">
+                <i class="fa-solid fa-soap"></i>
+              </div>
+              <div class="stat-details">
+                <h3 id="statProses">0</h3>
+                <p>Proses Cuci</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon icon-green">
+                <i class="fa-solid fa-money-bill-wave"></i>
+              </div>
+              <div class="stat-details">
+                <h3 id="statUang">Rp 0</h3>
+                <p>Pendapatan Hari Ini</p>
+              </div>
+            </div>
+          </section>
 
-          <div
-            class="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white p-[15px] shadow-[0_3px_10px_rgba(15,23,42,0.04)] transition hover:-translate-y-[3px] lg:gap-4 lg:p-[22px]"
-          >
-            <div
-              class="flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-amber-100 text-base text-amber-600 lg:h-[50px] lg:w-[50px] lg:text-[1.2rem]"
-            >
-              <i class="fa-solid fa-motorcycle"></i>
+          <section class="content-card">
+            <div class="section-header">
+              <div>
+                <h2>Pesanan Aktif</h2>
+                <p>Kelola seluruh pesanan LaundryTrack.</p>
+              </div>
+              <button class="btn btn-primary" onclick="bukaFormOrder()">
+                <i class="fa-solid fa-plus"></i> Order Baru
+              </button>
             </div>
-            <div>
-              <h3
-                id="statJemput"
-                class="mb-[3px] text-[1.05rem] font-semibold text-slate-800 lg:text-[1.35rem]"
-              >
-                0
-              </h3>
-              <p class="text-[0.62rem] text-slate-500 lg:text-[0.72rem]">
-                Menunggu Penjemputan
-              </p>
-            </div>
-          </div>
 
-          <div
-            class="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white p-[15px] shadow-[0_3px_10px_rgba(15,23,42,0.04)] transition hover:-translate-y-[3px] lg:gap-4 lg:p-[22px]"
-          >
-            <div
-              class="flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-violet-100 text-base text-violet-600 lg:h-[50px] lg:w-[50px] lg:text-[1.2rem]"
-            >
-              <i class="fa-solid fa-soap"></i>
-            </div>
-            <div>
-              <h3
-                id="statProses"
-                class="mb-[3px] text-[1.05rem] font-semibold text-slate-800 lg:text-[1.35rem]"
-              >
-                0
-              </h3>
-              <p class="text-[0.62rem] text-slate-500 lg:text-[0.72rem]">
-                Proses Cuci
-              </p>
-            </div>
-          </div>
+            <div class="toolbar">
+              <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input
+                  id="searchOrder"
+                  type="text"
+                  placeholder="Cari nama pelanggan atau nomor nota..."
+                />
+              </div>
 
-          <div
-            class="flex items-center gap-2.5 rounded-[14px] border border-slate-200 bg-white p-[15px] shadow-[0_3px_10px_rgba(15,23,42,0.04)] transition hover:-translate-y-[3px] lg:gap-4 lg:p-[22px]"
-          >
-            <div
-              class="flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-green-100 text-base text-green-600 lg:h-[50px] lg:w-[50px] lg:text-[1.2rem]"
-            >
-              <i class="fa-solid fa-check-double"></i>
+              <select id="filterStatus">
+                <option value="semua">Semua Status</option>
+                <option value="menunggu">Menunggu Penjemputan</option>
+                <option value="ditugaskan_jemput">
+                  Kurir Ditugaskan - Jemput
+                </option>
+                <option value="dijemput">Sudah Dijemput</option>
+                <option value="dicuci">Sedang Dicuci</option>
+                <option value="disetrika">Sedang Disetrika</option>
+                <option value="siap">Siap Diantar</option>
+                <option value="ditugaskan_antar">
+                  Kurir Ditugaskan - Antar
+                </option>
+                <option value="selesai">Selesai</option>
+              </select>
             </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID Nota</th>
+                    <th>Pelanggan</th>
+                    <th>Paket</th>
+                    <th>Layanan</th>
+                    <th>Berat</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Kurir</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="orderBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="reset-area">
             <div>
-              <h3
-                id="statUang"
-                class="mb-[3px] text-[1.05rem] font-semibold text-slate-800 lg:text-[1.35rem]"
-              >
-                Rp 0
-              </h3>
-              <p class="text-[0.62rem] text-slate-500 lg:text-[0.72rem]">
-                Pendapatan Hari Ini
-              </p>
+              <h3>Reset Data Demo</h3>
+              <p>Menghapus seluruh pesanan dari server dan LocalStorage.</p>
             </div>
+            <button class="btn btn-danger" onclick="resetData()">
+              <i class="fa-solid fa-trash"></i> Reset Data
+            </button>
           </div>
         </div>
 
-        <!-- TABEL PESANAN -->
-        <div
-          class="overflow-hidden rounded-[14px] border border-slate-200 bg-white shadow-[0_3px_10px_rgba(15,23,42,0.04)]"
-        >
-          <div
-            class="flex items-center justify-between border-b border-slate-200 p-[18px] lg:px-[25px] lg:py-[22px]"
-          >
-            <h3
-              class="text-[0.85rem] font-semibold text-slate-800 lg:text-base"
-            >
-              Pesanan Aktif (Live Tracking)
-            </h3>
-
-            <div class="flex items-center gap-1">
-              <button
-                onclick="resetData()"
-                class="cursor-pointer rounded-[7px] bg-slate-100 px-2.5 py-[7px] text-[0.68rem] text-slate-500 transition hover:bg-slate-200 hover:text-slate-700"
-              >
-                <i class="fa-solid fa-rotate-left"></i> Reset Data
-              </button>
-              <button
-                onclick="bukaFormOrder()"
-                class="cursor-pointer rounded-lg bg-sky-500 px-2.5 py-2 text-[0.68rem] text-white transition hover:bg-sky-600 lg:px-4 lg:py-2.5 lg:text-[0.8rem]"
-              >
-                <i class="fa-solid fa-plus mr-1"></i>Order Baru
-              </button>
-            </div>
-          </div>
-
-          <div class="w-full overflow-x-auto">
-            <table class="w-full min-w-[850px] border-collapse">
-              <thead class="bg-slate-50">
-                <tr
-                  class="text-left text-[0.72rem] font-semibold text-slate-500"
-                >
-                  <th
-                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
-                  >
-                    ID Nota
-                  </th>
-                  <th
-                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
-                  >
-                    Nama Pelanggan
-                  </th>
-                  <th
-                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
-                  >
-                    Layanan
-                  </th>
-                  <th
-                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
-                  >
-                    Status Saat Ini
-                  </th>
-                  <th
-                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
-                  >
-                    Kurir
-                  </th>
-                  <th
-                    class="whitespace-nowrap border-b border-slate-200 px-5 py-3.5"
-                  >
-                    Aksi
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                id="orderBody"
-                class="[&>tr:last-child>td]:border-b-0"
-              ></tbody>
-            </table>
-          </div>
-        </div>
+        <!-- DYNAMIC PAGE -->
+        <div id="dynamicPage" style="display: none"></div>
       </div>
     </main>
 
+    <!-- MODAL ROOT -->
     <div id="modalRoot"></div>
 
-    <script src="js/data.js"></script>
-    <script src="js/admin.js"></script>
+    <!-- DATA DARI REST API -->
+    <section class="content-card" style="margin: 0 35px 40px">
+      <div class="section-header">
+        <div>
+          <h2>Data Order dari REST API</h2>
+          <p>Data mentah yang diambil langsung dari server LaundryTrack.</p>
+        </div>
+      </div>
+      <div id="api-orders">Memuat data dari API...</div>
+    </section>
+
+    <!-- JS -->
+    <script src="./js/data.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/admin.js"></script>
   </body>
 </html>

@@ -1,0 +1,81 @@
+{
+  "orders": [
+    {
+      "id": "INV-0001",
+      "nama": "ardhi",
+      "hp": "082143345946",
+      "alamat": "umm",
+      "paket": "Regular",
+      "layanan": "Biasa",
+      "berat": 3,
+      "hargaPerKg": 6000,
+      "total": 18000,
+      "antarJemput": true,
+      "kurirJemput": {
+        "id": "KR-01",
+        "nama": "Budi",
+        "pin": "1234"
+      },
+      "kurirAntar": {
+        "id": "KR-01",
+        "nama": "Budi",
+        "pin": "1234"
+      },
+      "kurir": {
+        "id": "KR-01",
+        "nama": "Budi",
+        "pin": "1234"
+      },
+      "status": "selesai",
+      "dibuat": 1791618846049,
+      "log": [
+        {
+          "waktu": 1791618846049,
+          "status": "menunggu",
+          "keterangan": "Pesanan dibuat oleh customer"
+        },
+        {
+          "waktu": 1791618857639,
+          "status": "ditugaskan_jemput",
+          "keterangan": "Kurir ditugaskan untuk penjemputan"
+        },
+        {
+          "waktu": 1791618874283,
+          "status": "dijemput",
+          "aksi": "Pakaian berhasil dijemput",
+          "oleh": "Budi",
+          "keterangan": "Kurir menyelesaikan penjemputan"
+        },
+        {
+          "waktu": 1791618899409,
+          "status": "ditimbang",
+          "keterangan": "Pakaian ditimbang 3 kg, total Rp 18.000"
+        },
+        {
+          "waktu": 1791618904075,
+          "status": "dicuci",
+          "keterangan": "Sedang Dicuci"
+        },
+        {
+          "waktu": 1791618906343,
+          "status": "siap",
+          "keterangan": "Siap Diantar"
+        },
+        {
+          "waktu": 1791618910546,
+          "status": "ditugaskan_antar",
+          "keterangan": "Kurir ditugaskan untuk pengantaran"
+        },
+        {
+          "waktu": 1791619310931,
+          "status": "selesai",
+          "aksi": "Pakaian berhasil diantar",
+          "oleh": "Budi",
+          "keterangan": "Kurir menyelesaikan pengantaran"
+        }
+      ],
+      "dijemputPada": 1791618874283,
+      "selesaiPada": 1791619310931
+    }
+  ]
+}
