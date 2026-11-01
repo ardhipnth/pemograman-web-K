@@ -1,9 +1,8 @@
 <?php
+// Memanggil Controller
 require_once __DIR__ . '/Controller/LayananController.php';
 
-// Menerima request user
+// Menjalankan aplikasi
 $controller = new LayananController();
-
-// Menjalankan alur MVC
-$controller->index(); 
+$controller->index();
 ?>
