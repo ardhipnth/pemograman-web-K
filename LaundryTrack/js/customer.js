@@ -12,33 +12,45 @@
   }
 
   async function loadOrdersFromAPI() {
-    if (typeof getOrdersAPI !== "function") {
-      console.error(
-        "getOrdersAPI() tidak ditemukan. Pastikan api.js dimuat sebelum customer.js.",
-      );
-      return getOrders();
-    }
+    if (ordersLoading) return getOrders();
+    if (typeof getOrdersAPI !== "function") return getOrders();
 
+    ordersLoading = true;
     try {
-      ordersLoading = true;
-      ordersError = null;
-
       const data = await getOrdersAPI();
       ordersCache = Array.isArray(data) ? data : [];
-      ordersLoading = false;
+      ordersError = null;
 
       if (hpAktif) {
         const order = getOrders()
           .filter((o) => normalisasiHp(o.hp) === hpAktif)
           .sort((a, b) => Number(b.dibuat || 0) - Number(a.dibuat || 0))[0];
-        if (order) tampilkanHasil(order);
+
+        if (order) {
+          const signature = [
+            order.id,
+            order.status,
+            order.dijemputPada,
+            order.selesaiPada,
+            order.berat,
+            order.total,
+            JSON.stringify(order.log || [])
+          ].join("|");
+
+          if (signature !== lastDisplayedOrderSignature) {
+            lastDisplayedOrderSignature = signature;
+            tampilkanHasil(order);
+          }
+        }
       }
+
       return ordersCache;
     } catch (error) {
-      ordersLoading = false;
       ordersError = error.message || "Tidak dapat terhubung ke server.";
       console.error("Gagal memuat order dari API:", error);
       return getOrders();
+    } finally {
+      ordersLoading = false;
     }
   }
 
@@ -341,6 +353,6 @@
     await loadOrdersFromAPI();
 
     if (pollingCustomer) clearInterval(pollingCustomer);
-    pollingCustomer = setInterval(loadOrdersFromAPI, 3000);
+    pollingCustomer = setInterval(loadOrdersFromAPI, 15000);
   });
 })();

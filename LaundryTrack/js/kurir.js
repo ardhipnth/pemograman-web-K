@@ -16,24 +16,26 @@ function getOrders() {
 }
 
 async function loadOrdersFromAPI() {
+  if (ordersLoading) return getOrders();
   if (typeof getOrdersAPI !== "function") return getOrders();
+
+  ordersLoading = true;
+
   try {
-    ordersLoading = true;
-    ordersError = null;
-    renderCurrentPage();
     const data = await getOrdersAPI();
     ordersCache = Array.isArray(data) ? data : [];
-    ordersLoading = false;
-    renderCurrentPage();
+    ordersError = null;
     return ordersCache;
   } catch (error) {
-    ordersLoading = false;
     ordersError = error.message || "Gagal koneksi.";
-    renderCurrentPage();
+    console.error("Gagal memuat order Kurir:", error);
     return getOrders();
+  } finally {
+    // Pastikan status loading selesai sebelum halaman dirender.
+    ordersLoading = false;
+    renderCurrentPage();
   }
 }
-
 function escapeHtml(text) {
   if (typeof esc === "function") return esc(text);
   return String(text ?? "")
@@ -462,7 +464,5 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
   await loadOrdersFromAPI();
   if (pollingKurir) clearInterval(pollingKurir);
-  pollingKurir = setInterval(async function () {
-    await loadOrdersFromAPI();
-  }, 3000);
+  pollingKurir = setInterval(async function () { await loadOrdersFromAPI(); }, 15000);
 });

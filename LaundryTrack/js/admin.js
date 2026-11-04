@@ -17,24 +17,24 @@ function getOrders() {
 }
 
 async function loadOrdersFromAPI() {
+  if (ordersLoading) return getOrders();
+  if (typeof getOrdersAPI !== "function") return getOrders();
+
+  ordersLoading = true;
   try {
-    ordersLoading = true;
-    ordersError = null;
-    renderOrders();
     const data = await getOrdersAPI();
     ordersCache = Array.isArray(data) ? data : [];
-    ordersLoading = false;
+    ordersError = null;
     renderOrders();
-
-    const active = document.querySelector(".nav-link.active");
-    if (active && active.dataset.page !== "dashboard") {
-      tampilkanHalaman(active.dataset.page);
-    }
     if (typeof tampilkanOrdersAPI === "function") tampilkanOrdersAPI();
+    return ordersCache;
   } catch (error) {
-    ordersLoading = false;
     ordersError = error.message || "Tidak dapat terhubung ke server.";
-    renderOrders();
+    console.error("Gagal memuat order Admin:", error);
+    if (!ordersCache.length) renderOrders();
+    return getOrders();
+  } finally {
+    ordersLoading = false;
   }
 }
 

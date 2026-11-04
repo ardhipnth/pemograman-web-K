@@ -2,13 +2,13 @@
    LAUNDRYTRACK - API BRIDGE (FINAL STABLE)
 ========================================================= */
 
-const BACKEND_MODE = "php";
+const BACKEND_MODE = "laravel";
 
 const API_CONFIG = {
-  php: {
+  laravel: {
     baseUrl: "http://127.0.0.1:8000/api",
     buildUrl: (endpoint, id) => {
-      const base = `${API_CONFIG.php.baseUrl}/orders`;
+      const base = `${API_CONFIG.laravel.baseUrl}/orders`;
       return id ? `${base}/${id}` : base;
     },
   },
@@ -102,7 +102,7 @@ window.addEventListener("laundrytrack:orders-updated", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(syncData, 500);
-  setInterval(syncData, 3000);
+  setInterval(syncData, 15000);
 });
 
 async function tampilkanOrdersAPI() {
