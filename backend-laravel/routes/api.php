@@ -4,7 +4,9 @@ use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ServiceController;
 
+Route::apiResource('services', ServiceController::class);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
