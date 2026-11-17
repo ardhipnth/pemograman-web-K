@@ -1,5 +1,5 @@
 /* =========================================================
-   LAUNDRYTRACK - ADMIN PORTAL (FINAL LENGKAP)
+   LAUNDRYTRACK - ADMIN PORTAL (FINAL LENGKAP + CRUD LAYANAN)
 ========================================================= */
 
 const REQUIRE_ADMIN_LOGIN = true;
@@ -164,26 +164,17 @@ function renderOrderRow(order) {
 }
 
 function bukaFormOrder() {
-  document.getElementById("modalRoot").innerHTML = `
-    <div class="modal-overlay"><div class="modal"><div class="modal-header"><h3>Buat Order Baru</h3><button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button></div>
-    <form onsubmit="simpanOrderBaru(event)">
-      <div class="form-group"><label>Nama Pelanggan</label><input id="orderNama" type="text" required /></div>
-      <div class="form-group"><label>Nomor HP</label><input id="orderHp" type="text" required /></div>
-      <div class="form-group"><label>Alamat</label><textarea id="orderAlamat" required></textarea></div>
-      <div class="form-group"><label>Paket</label><select id="orderPaket" required><option value="">Pilih</option><option value="Kilat">Kilat</option><option value="Express">Express</option><option value="Regular">Regular</option></select></div>
-      <div class="form-group"><label>Layanan</label><select id="orderLayanan" required><option value="">Pilih</option><option value="Komplit">Komplit</option><option value="Biasa">Biasa</option><option value="Setrika">Setrika</option></select></div>
-      <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="tutupModal()">Batal</button><button type="submit" class="btn btn-primary">Simpan</button></div>
-    </form></div></div>`;
+  document.getElementById("modalRoot").innerHTML =
+    `<div class="modal-overlay"><div class="modal"><div class="modal-header"><h3>Buat Order Baru</h3><button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button></div><form onsubmit="simpanOrderBaru(event)"><div class="form-group"><label>Nama Pelanggan</label><input id="orderNama" type="text" required /></div><div class="form-group"><label>Nomor HP</label><input id="orderHp" type="text" required /></div><div class="form-group"><label>Alamat</label><textarea id="orderAlamat" required></textarea></div><div class="form-group"><label>Paket</label><select id="orderPaket" required><option value="">Pilih</option><option value="Kilat">Kilat</option><option value="Express">Express</option><option value="Regular">Regular</option></select></div><div class="form-group"><label>Layanan</label><select id="orderLayanan" required><option value="">Pilih</option><option value="Komplit">Komplit</option><option value="Biasa">Biasa</option><option value="Setrika">Setrika</option></select></div><div class="form-actions"><button type="button" class="btn btn-secondary" onclick="tutupModal()">Batal</button><button type="submit" class="btn btn-primary">Simpan</button></div></form></div></div>`;
 }
 
 async function simpanOrderBaru(e) {
   e.preventDefault();
-  const nama = document.getElementById("orderNama").value.trim();
-  const hp = document.getElementById("orderHp").value.trim();
-  const alamat = document.getElementById("orderAlamat").value.trim();
-  const paket = document.getElementById("orderPaket").value;
-  const layanan = document.getElementById("orderLayanan").value;
-
+  const nama = document.getElementById("orderNama").value.trim(),
+    hp = document.getElementById("orderHp").value.trim(),
+    alamat = document.getElementById("orderAlamat").value.trim(),
+    paket = document.getElementById("orderPaket").value,
+    layanan = document.getElementById("orderLayanan").value;
   if (!nama || !hp || !alamat || !paket || !layanan) {
     alert("Semua data harus diisi.");
     return;
@@ -234,11 +225,8 @@ function bukaAssign(orderId, tipe) {
           { id: "KR-01", nama: "Budi" },
           { id: "KR-02", nama: "Andi" },
         ];
-  document.getElementById("modalRoot").innerHTML = `
-    <div class="modal-overlay"><div class="modal"><div class="modal-header"><h3>Tugaskan Kurir</h3><button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button></div>
-    <div style="background:#f8fafc;padding:14px;border-radius:10px;margin-bottom:16px"><strong>${escapeHTML(order.id)}</strong><p style="font-size:12px">${escapeHTML(order.nama)}</p></div>
-    <div class="form-group"><label>Pilih Kurir</label><select id="selectedCourier">${daftar.map((k) => `<option value="${k.id}">${escapeHTML(k.nama)} (${k.id})</option>`).join("")}</select></div>
-    <div class="form-actions"><button class="btn btn-secondary" onclick="tutupModal()">Batal</button><button class="btn btn-primary" onclick="tugaskanKurir('${orderId}', '${tipe}')">Tugaskan</button></div></div></div>`;
+  document.getElementById("modalRoot").innerHTML =
+    `<div class="modal-overlay"><div class="modal"><div class="modal-header"><h3>Tugaskan Kurir</h3><button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button></div><div style="background:#f8fafc;padding:14px;border-radius:10px;margin-bottom:16px"><strong>${escapeHTML(order.id)}</strong><p style="font-size:12px">${escapeHTML(order.nama)}</p></div><div class="form-group"><label>Pilih Kurir</label><select id="selectedCourier">${daftar.map((k) => `<option value="${k.id}">${escapeHTML(k.nama)} (${k.id})</option>`).join("")}</select></div><div class="form-actions"><button class="btn btn-secondary" onclick="tutupModal()">Batal</button><button class="btn btn-primary" onclick="tugaskanKurir('${orderId}', '${tipe}')">Tugaskan</button></div></div></div>`;
 }
 
 async function tugaskanKurir(orderId, tipe) {
@@ -284,10 +272,8 @@ async function tugaskanKurir(orderId, tipe) {
 function timbangOrder(orderId) {
   const order = getOrders().find((o) => o.id === orderId);
   if (!order) return;
-  document.getElementById("modalRoot").innerHTML = `
-    <div class="modal-overlay"><div class="modal"><div class="modal-header"><h3>Timbang Pakaian</h3><button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button></div>
-    <div class="form-group"><label>Berat (kg)</label><input id="inputBerat" type="number" min="0.1" step="0.1" required /></div>
-    <div class="form-actions"><button class="btn btn-secondary" onclick="tutupModal()">Batal</button><button class="btn btn-success" onclick="simpanTimbangan('${orderId}')">Simpan</button></div></div></div>`;
+  document.getElementById("modalRoot").innerHTML =
+    `<div class="modal-overlay"><div class="modal"><div class="modal-header"><h3>Timbang Pakaian</h3><button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button></div><div class="form-group"><label>Berat (kg)</label><input id="inputBerat" type="number" min="0.1" step="0.1" required /></div><div class="form-actions"><button class="btn btn-secondary" onclick="tutupModal()">Batal</button><button class="btn btn-success" onclick="simpanTimbangan('${orderId}')">Simpan</button></div></div></div>`;
 }
 
 async function simpanTimbangan(orderId) {
@@ -298,7 +284,6 @@ async function simpanTimbangan(orderId) {
   }
   const order = getOrders().find((o) => o.id === orderId);
   if (!order) return;
-
   let harga =
     typeof hargaLayanan === "function"
       ? hargaLayanan(order.paket, order.layanan)
@@ -314,7 +299,6 @@ async function simpanTimbangan(orderId) {
     "ditimbang",
     `Pakaian ditimbang ${berat} kg, total ${money(update.total)}`,
   );
-
   try {
     await updateOrderAPI(orderId, update);
     tutupModal();
@@ -350,12 +334,8 @@ function bukaDetail(orderId) {
   const order = getOrders().find((o) => o.id === orderId);
   if (!order) return;
   const status = getStatusInfo(order.status);
-  document.getElementById("modalRoot").innerHTML = `
-    <div class="modal-overlay"><div class="modal"><div class="modal-header"><h3>Detail ${escapeHTML(order.id)}</h3><button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button></div>
-    <div class="info-grid"><div class="info-card"><h3>Pelanggan</h3><p>Nama: ${escapeHTML(order.nama)}</p><p>HP: ${escapeHTML(order.hp)}</p><p>Alamat: ${escapeHTML(order.alamat)}</p></div>
-    <div class="info-card"><h3>Layanan</h3><p>Paket: ${escapeHTML(order.paket)}</p><p>Layanan: ${escapeHTML(order.layanan)}</p><p>Status: ${escapeHTML(status.label)}</p></div>
-    <div class="info-card"><h3>Timbangan</h3><p>Berat: ${order.berat ? order.berat + " kg" : "-"}</p><p>Total: ${order.total ? money(order.total) : "-"}</p></div></div>
-    <div class="form-actions"><button class="btn btn-secondary" onclick="tutupModal()">Tutup</button></div></div></div>`;
+  document.getElementById("modalRoot").innerHTML =
+    `<div class="modal-overlay"><div class="modal"><div class="modal-header"><h3>Detail ${escapeHTML(order.id)}</h3><button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button></div><div class="info-grid"><div class="info-card"><h3>Pelanggan</h3><p>Nama: ${escapeHTML(order.nama)}</p><p>HP: ${escapeHTML(order.hp)}</p><p>Alamat: ${escapeHTML(order.alamat)}</p></div><div class="info-card"><h3>Layanan</h3><p>Paket: ${escapeHTML(order.paket)}</p><p>Layanan: ${escapeHTML(order.layanan)}</p><p>Status: ${escapeHTML(status.label)}</p></div><div class="info-card"><h3>Timbangan</h3><p>Berat: ${order.berat ? order.berat + " kg" : "-"}</p><p>Total: ${order.total ? money(order.total) : "-"}</p></div></div><div class="form-actions"><button class="btn btn-secondary" onclick="tutupModal()">Tutup</button></div></div></div>`;
 }
 
 function tambahLog(order, status, keterangan) {
@@ -388,46 +368,49 @@ function setupNavigation() {
 }
 
 function tampilkanHalaman(page) {
-  const dashboard = document.getElementById("dashboardPage");
-  const dynamic = document.getElementById("dynamicPage");
+  const dash = document.getElementById("dashboardPage");
+  const dyn = document.getElementById("dynamicPage");
   const title = document.getElementById("pageTitle");
-  const desc = document.getElementById("pageDescription");
+  const desc = document.getElementById("pageDescription"); // <-- FIXED
+
+  if (!dash || !dyn) return;
 
   if (page === "dashboard") {
-    dashboard.style.display = "block";
-    dynamic.style.display = "none";
+    dash.style.display = "block";
+    dyn.style.display = "none";
     title.textContent = "Dashboard Overview";
     desc.textContent = "Pantau operasional hari ini.";
     renderOrders();
     return;
   }
-  dashboard.style.display = "none";
-  dynamic.style.display = "block";
+
+  dash.style.display = "none";
+  dyn.style.display = "block";
 
   if (page === "pesanan") {
     title.textContent = "Kelola Pesanan";
     desc.textContent = "Semua pesanan.";
-    dynamic.innerHTML = `<section class="content-card"><div class="table-container"><table><thead><tr><th>ID</th><th>Pelanggan</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${getOrders().map(renderOrderRow).join("")}</tbody></table></div></section>`;
+    dyn.innerHTML = `<section class="content-card"><div class="table-container"><table><thead><tr><th>ID</th><th>Pelanggan</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${getOrders().map(renderOrderRow).join("")}</tbody></table></div></section>`;
   } else if (page === "armada") {
     title.textContent = "Armada Kurir";
     desc.textContent = "Info kurir.";
-    dynamic.innerHTML = `<section class="content-card"><p>Total Kurir: 2 (Budi, Andi)</p></section>`;
+    dyn.innerHTML = `<section class="content-card"><p>Total Kurir: 2 (Budi, Andi)</p></section>`;
   } else if (page === "pelanggan") {
     title.textContent = "Pelanggan";
     desc.textContent = "Data pelanggan.";
-    dynamic.innerHTML = `<section class="content-card"><p>Data pelanggan ada di pesanan.</p></section>`;
+    dyn.innerHTML = `<section class="content-card"><p>Data pelanggan ada di pesanan.</p></section>`;
   } else if (page === "laporan") {
     title.textContent = "Laporan";
     desc.textContent = "Ringkasan transaksi.";
-    dynamic.innerHTML = `<section class="content-card"><h3>Total Pendapatan: ${money(
+    dyn.innerHTML = `<section class="content-card"><h3>Total Pendapatan: ${money(
       getOrders()
         .filter((o) => o.status === "selesai")
         .reduce((s, o) => s + Number(o.total || 0), 0),
     )}</h3></section>`;
   } else if (page === "paket") {
-    title.textContent = "Paket Layanan";
-    desc.textContent = "Daftar harga.";
-    dynamic.innerHTML = `<section class="content-card"><p>Kilat, Express, Regular</p></section>`;
+    title.textContent = "Kelola Layanan";
+    desc.textContent = "Tambah, edit, dan hapus paket layanan."; // <-- FIXED
+    renderLayananPage();
   }
 }
 
@@ -476,12 +459,170 @@ document.addEventListener("DOMContentLoaded", async function () {
   document
     .getElementById("filterStatus")
     ?.addEventListener("change", renderOrders);
-
   if (loggedIn) await loadOrdersFromAPI();
 });
 
 window.addEventListener("laundrytrack:orders-updated", function () {
-  if (adminLoggedIn) {
-    renderOrders();
-  }
+  if (adminLoggedIn) renderOrders();
 });
+
+/* =====================================================
+   FITUR CRUD LAYANAN (WEEK 9)
+===================================================== */
+
+async function renderLayananPage() {
+  const dynamic = document.getElementById("dynamicPage");
+  dynamic.innerHTML = `
+    <section class="content-card">
+      <div class="section-header">
+        <div>
+          <h2>Daftar Layanan</h2>
+          <p>Data diambil langsung dari database Laravel.</p>
+        </div>
+        <button class="btn btn-primary" onclick="bukaFormLayanan()">+ Tambah Layanan</button>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>No</th><th>Nama Layanan</th><th>Deskripsi</th><th>Harga/Kg</th><th>Aksi</th></tr>
+          </thead>
+          <tbody id="serviceBody">
+            <tr><td colspan="5">Memuat data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `;
+  loadServices();
+}
+
+async function loadServices() {
+  try {
+    const res = await fetch("http://127.0.0.1:8000/api/services");
+    const result = await res.json();
+    const data = result.data || [];
+    const tbody = document.getElementById("serviceBody");
+
+    if (!tbody) return;
+
+    if (!data.length) {
+      tbody.innerHTML =
+        '<tr><td colspan="5" style="text-align:center;">Belum ada layanan</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = data
+      .map(
+        (s, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td><strong>${s.nama}</strong></td>
+        <td>${s.deskripsi || "-"}</td>
+        <td>Rp ${Number(s.harga_per_kg).toLocaleString("id-ID")}</td>
+        <td>
+          <button class="btn btn-warning" onclick="bukaEditLayanan(${s.id})">Edit</button>
+          <button class="btn btn-danger" onclick="hapusLayanan(${s.id})">Hapus</button>
+        </td>
+      </tr>
+    `,
+      )
+      .join("");
+  } catch (err) {
+    const tbody = document.getElementById("serviceBody");
+    if (tbody)
+      tbody.innerHTML =
+        '<tr><td colspan="5" style="color:red;">Gagal memuat data API. Pastikan Laravel menyala.</td></tr>';
+  }
+}
+
+function bukaFormLayanan() {
+  document.getElementById("modalRoot").innerHTML = `
+    <div class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Tambah Layanan</h3>
+          <button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form onsubmit="simpanLayanan(event)">
+          <div class="form-group"><label>Nama Layanan</label><input id="layananNama" type="text" required /></div>
+          <div class="form-group"><label>Deskripsi</label><textarea id="layananDeskripsi" required></textarea></div>
+          <div class="form-group"><label>Harga per Kg</label><input id="layananHarga" type="number" required /></div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="tutupModal()">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+}
+
+async function simpanLayanan(e) {
+  e.preventDefault();
+  const payload = {
+    nama: document.getElementById("layananNama").value,
+    deskripsi: document.getElementById("layananDeskripsi").value,
+    harga_per_kg: document.getElementById("layananHarga").value,
+  };
+  await fetch("http://127.0.0.1:8000/api/services", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(payload),
+  });
+  tutupModal();
+  loadServices();
+  alert("Layanan berhasil ditambahkan!");
+}
+
+async function bukaEditLayanan(id) {
+  try {
+    const res = await fetch(`http://127.0.0.1:8000/api/services/${id}`);
+    const result = await res.json();
+    const s = result.data;
+
+    document.getElementById("modalRoot").innerHTML = `
+      <div class="modal-overlay">
+        <div class="modal">
+          <div class="modal-header">
+            <h3>Edit Layanan</h3>
+            <button class="close-modal" onclick="tutupModal()"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <form onsubmit="simpanEditLayanan(event, ${s.id})">
+            <div class="form-group"><label>Nama Layanan</label><input id="editLayananNama" type="text" value="${s.nama}" required /></div>
+            <div class="form-group"><label>Deskripsi</label><textarea id="editLayananDeskripsi" required>${s.deskripsi || ""}</textarea></div>
+            <div class="form-group"><label>Harga per Kg</label><input id="editLayananHarga" type="number" value="${s.harga_per_kg}" required /></div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" onclick="tutupModal()">Batal</button>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+  } catch (err) {
+    alert("Gagal mengambil data layanan.");
+  }
+}
+
+async function simpanEditLayanan(e, id) {
+  e.preventDefault();
+  const payload = {
+    nama: document.getElementById("editLayananNama").value,
+    deskripsi: document.getElementById("editLayananDeskripsi").value,
+    harga_per_kg: document.getElementById("editLayananHarga").value,
+  };
+  await fetch(`http://127.0.0.1:8000/api/services/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(payload),
+  });
+  tutupModal();
+  loadServices();
+  alert("Layanan berhasil diperbarui!");
+}
+
+async function hapusLayanan(id) {
+  if (!confirm("Yakin hapus layanan ini?")) return;
+  await fetch(`http://127.0.0.1:8000/api/services/${id}`, { method: "DELETE" });
+  loadServices();
+}
