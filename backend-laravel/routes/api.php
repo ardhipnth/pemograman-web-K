@@ -3,11 +3,17 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController; // <-- TAMBAHKAN INI
 
-// Route bawaan Laravel (biarkan saja)
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route Login (Publik)
+Route::post('/login', [AuthController::class, 'login']);
+
+// Route Publik untuk Customer (Buat pesanan & cek status)
+Route::apiResource('orders', OrderController::class);
+
+// Route Terlindungi (Wajib pakai Token JWT)
+Route::middleware('auth:api')->group(function () {
+    Route::apiResource('services', ServiceController::class);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
-
-// TASK 03: RESTful API Route
-Route::apiResource('services', ServiceController::class);
