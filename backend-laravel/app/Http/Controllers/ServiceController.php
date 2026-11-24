@@ -7,68 +7,89 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+    // READ: Mengambil semua data
     public function index()
     {
         return response()->json([
-            'status' => 'success',
             'data' => Service::all()
-        ]);
+        ], 200);
     }
 
+    // FORM CREATE (Untuk API, kita cukup return pesan)
+    public function create()
+    {
+        return response()->json(['message' => 'Form tambah layanan']);
+    }
+
+    // CREATE: Simpan data baru + VALIDATION
     public function store(Request $request)
     {
+        // Validasi sesuai PPT Task 02
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'harga_per_kg' => 'required|integer|min:0',
+            'nama' => 'required|max:100',
+            'deskripsi' => 'required',
+            'harga_per_kg' => 'required|integer|min:1000'
         ]);
 
-        $service = Service::create($request->all());
+        $service = Service::create([
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'harga_per_kg' => $request->harga_per_kg,
+        ]);
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Layanan berhasil ditambahkan',
+            'message' => 'Berhasil',
             'data' => $service
-        ], 201);
+        ], 201); // 201 Created
     }
 
+    // READ DETAIL
     public function show($id)
     {
         $service = Service::findOrFail($id);
-
         return response()->json([
-            'status' => 'success',
             'data' => $service
-        ]);
+        ], 200);
     }
 
-    public function update(Request $request, $id)
+    // FORM EDIT
+    public function edit($id)
     {
         $service = Service::findOrFail($id);
-
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'harga_per_kg' => 'required|integer|min:0',
-        ]);
-
-        $service->update($request->all());
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Layanan berhasil diperbarui',
-            'data' => $service
-        ]);
+        return response()->json(['message' => 'Form edit layanan', 'data' => $service]);
     }
 
+    // UPDATE: Ubah data + VALIDATION
+    public function update(Request $request, $id)
+    {
+        // Validasi sesuai PPT Task 02
+        $request->validate([
+            'nama' => 'required|max:100',
+            'deskripsi' => 'required',
+            'harga_per_kg' => 'required|integer|min:1000'
+        ]);
+
+        $service = Service::findOrFail($id);
+        $service->update([
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'harga_per_kg' => $request->harga_per_kg,
+        ]);
+
+        return response()->json([
+            'message' => 'Berhasil diperbarui',
+            'data' => $service
+        ], 200);
+    }
+
+    // DELETE
     public function destroy($id)
     {
         $service = Service::findOrFail($id);
         $service->delete();
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Layanan berhasil dihapus'
-        ]);
+            'message' => 'Berhasil dihapus'
+        ], 200);
     }
 }

@@ -1,24 +1,13 @@
 <?php
 
-use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServiceController;
 
-Route::apiResource('services', ServiceController::class);
+// Route bawaan Laravel (biarkan saja)
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/orders', [OrderController::class, 'index'])
-    ->withoutMiddleware([ThrottleRequests::class]);
-
-Route::post('/orders', [OrderController::class, 'store'])
-    ->withoutMiddleware([ThrottleRequests::class]);
-
-Route::put('/orders/{id}', [OrderController::class, 'update'])
-    ->withoutMiddleware([ThrottleRequests::class]);
-
-Route::delete('/orders/{id}', [OrderController::class, 'destroy'])
-    ->withoutMiddleware([ThrottleRequests::class]);
+// TASK 03: RESTful API Route
+Route::apiResource('services', ServiceController::class);
